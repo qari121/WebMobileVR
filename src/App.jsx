@@ -52,13 +52,11 @@ function App() {
   };
 
   const handleDeviceOrientation = (event) => {
-    if (controlsRef.current) {
-      // Update camera position based on beta and gamma
-      cameraRef.current.position.x = -event.gamma / 90;
-      console.log(event.gamma);
-      cameraRef.current.position.y = event.beta / 90;
-      cameraRef.current.position.z = 2
-    }
+    // Access alpha, beta, and gamma values
+    const { alpha, beta, gamma } = event;
+
+    // Use alert to display the values
+    alert(`Alpha: ${alpha}, Beta: ${beta}, Gamma: ${gamma}`);
   };
 
   // Add event listener for device orientation
@@ -182,49 +180,55 @@ function App() {
 
     function animate() {
       requestAnimationFrame(animate);
-      time += 0.01;
+      
+      // Check if the camera is initialized before rendering
+      if (cameraRef.current) {
+        if (controlsRef.current) {
+          controlsRef.current.update();
 
-      if (controlsRef.current) {
-        controlsRef.current.update();
-        alert(controlsRef.current);
-        
+          // Access alpha, beta, and gamma values
+         // const { alpha, beta, gamma } = controlsRef.current.deviceOrientation;
+
+          // Use alert to display the values
+         // alert(`Alpha: ${alpha}, Beta: ${beta}, Gamma: ${gamma}`);
+        }
+
+        diamonds.forEach((diamond, index) => {
+          const initialPos = initialPositions[index];
+          const layerIndex = Math.floor(index / (diamondsPerRing * numRings));
+          
+          // Faster convergence cycle with shorter delays
+          const layerDelay = layerIndex * 0.8;
+          const convergence = Math.max(0, Math.sin(time * 1.5 - layerDelay) * 0.9);
+          const convergenceScale = 1 - convergence;
+
+          // Different rotation speed for each layer
+          const layerSpeed = layerRotationSpeeds[layerIndex];
+          const rotationAngle = time * layerSpeed;
+
+          // Maintain relative positions during convergence
+          const rotatedX = initialPos.x * Math.cos(rotationAngle) - initialPos.y * Math.sin(rotationAngle);
+          const rotatedY = initialPos.x * Math.sin(rotationAngle) + initialPos.y * Math.cos(rotationAngle);
+          const rotatedZ = initialPos.z;
+
+          // Apply scaled position while maintaining structure
+          diamond.position.x = rotatedX * convergenceScale;
+          diamond.position.y = rotatedY * convergenceScale;
+          diamond.position.z = rotatedZ * convergenceScale;
+
+          // Individual diamond rotation
+          const rotationSpeed = 0.02 + (layerIndex * 0.003);
+          diamond.rotation.x += rotationSpeed;
+          diamond.rotation.y += rotationSpeed;
+          diamond.rotation.z += rotationSpeed;
+
+          // Scale changes during convergence (reduced to minimize overlap)
+          const scale = 0.9 + convergence * 0.2;  // Reduced scale variation
+          diamond.scale.set(scale, scale, scale);
+        });
+
+        renderer.render(scene, cameraRef.current);
       }
-
-      diamonds.forEach((diamond, index) => {
-        const initialPos = initialPositions[index];
-        const layerIndex = Math.floor(index / (diamondsPerRing * numRings));
-        
-        // Faster convergence cycle with shorter delays
-        const layerDelay = layerIndex * 0.8;
-        const convergence = Math.max(0, Math.sin(time * 1.5 - layerDelay) * 0.9);
-        const convergenceScale = 1 - convergence;
-
-        // Different rotation speed for each layer
-        const layerSpeed = layerRotationSpeeds[layerIndex];
-        const rotationAngle = time * layerSpeed;
-
-        // Maintain relative positions during convergence
-        const rotatedX = initialPos.x * Math.cos(rotationAngle) - initialPos.y * Math.sin(rotationAngle);
-        const rotatedY = initialPos.x * Math.sin(rotationAngle) + initialPos.y * Math.cos(rotationAngle);
-        const rotatedZ = initialPos.z;
-
-        // Apply scaled position while maintaining structure
-        diamond.position.x = rotatedX * convergenceScale;
-        diamond.position.y = rotatedY * convergenceScale;
-        diamond.position.z = rotatedZ * convergenceScale;
-
-        // Individual diamond rotation
-        const rotationSpeed = 0.02 + (layerIndex * 0.003);
-        diamond.rotation.x += rotationSpeed;
-        diamond.rotation.y += rotationSpeed;
-        diamond.rotation.z += rotationSpeed;
-
-        // Scale changes during convergence (reduced to minimize overlap)
-        const scale = 0.9 + convergence * 0.2;  // Reduced scale variation
-        diamond.scale.set(scale, scale, scale);
-      });
-
-      renderer.render(scene, camera);
     }
     animate();
 
