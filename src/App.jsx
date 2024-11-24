@@ -51,29 +51,29 @@ function App() {
     }
   };
 
-  const handleDeviceOrientation = (event) => {
-    // Access alpha, beta, and gamma values
-    const { alpha, beta, gamma } = event;
+  // const handleDeviceOrientation = (event) => {
+  //   // Access alpha, beta, and gamma values
+  //   const { alpha, beta, gamma } = event;
 
-    // Update camera position based on device orientation
-    if (controlsRef.current) {
-      cameraRef.current.position.x = -gamma / 90; // Update x position based on gamma
-      cameraRef.current.position.y = beta / 90;   // Update y position based on beta
-      cameraRef.current.position.z = 1 - 0.5 * Math.min(Math.abs(cameraRef.current.position.x) + Math.abs(cameraRef.current.position.y), 1); // Update z position
+  //   // Update camera position based on device orientation
+  //   if (controlsRef.current) {
+  //     cameraRef.current.position.x = -gamma / 90; // Update x position based on gamma
+  //     cameraRef.current.position.y = beta / 90;   // Update y position based on beta
+  //     cameraRef.current.position.z = 1 - 0.5 * Math.min(Math.abs(cameraRef.current.position.x) + Math.abs(cameraRef.current.position.y), 1); // Update z position
 
-      // Optional: Log the updated camera position for debugging
-     // alert(`Camera Position - X: ${cameraRef.current.position.x}, Y: ${cameraRef.current.position.y}, Z: ${cameraRef.current.position.z}`);
-    }
-  };
+  //     // Optional: Log the updated camera position for debugging
+  //    // alert(`Camera Position - X: ${cameraRef.current.position.x}, Y: ${cameraRef.current.position.y}, Z: ${cameraRef.current.position.z}`);
+  //   }
+  // };
 
-  // Add event listener for device orientation
-  useEffect(() => {
-    window.addEventListener('deviceorientation', handleDeviceOrientation);
+  // // Add event listener for device orientation
+  // useEffect(() => {
+  //   window.addEventListener('deviceorientation', handleDeviceOrientation);
 
-    return () => {
-      window.removeEventListener('deviceorientation', handleDeviceOrientation);
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener('deviceorientation', handleDeviceOrientation);
+  //   };
+  // }, []);
 
   useEffect(() => {
     const scene = new THREE.Scene();
@@ -199,14 +199,15 @@ function App() {
           // Update camera position based on device orientation
           cameraRef.current.position.x = -gamma / 90; // Update x position based on gamma
           cameraRef.current.position.y = beta / 90;   // Update y position based on beta
-          cameraRef.current.position.z = 1 - 0.5 * Math.min(Math.abs(cameraRef.current.position.x) + Math.abs(cameraRef.current.position.y), 1); // Update z position
+          cameraRef.current.position.z = 8; // Update z position
+          cameraRef.current.lookAt(0, 0, 0);
 
           // Optional: Log the updated camera position for debugging
          // alert(`Camera Position - X: ${cameraRef.current.position.x}, Y: ${cameraRef.current.position.y}, Z: ${cameraRef.current.position.z}`);
         }
 
         // Commenting out the diamond animation logic
-        /*
+        
         diamonds.forEach((diamond, index) => {
           const initialPos = initialPositions[index];
           const layerIndex = Math.floor(index / (diamondsPerRing * numRings));
@@ -235,7 +236,7 @@ function App() {
           const scale = 0.9 + convergence * 0.2;  // Reduced scale variation
           diamond.scale.set(scale, scale, scale);
         });
-        */
+       
 
         // Render the scene
         renderer.render(scene, cameraRef.current);
