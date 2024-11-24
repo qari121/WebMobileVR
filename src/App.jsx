@@ -87,10 +87,10 @@ function App() {
     video.play();
 
     // Create video texture
-    const videoTexture = new THREE.VideoTexture(video);
-    videoTexture.minFilter = THREE.LinearFilter;
-    videoTexture.magFilter = THREE.LinearFilter;
-    videoTexture.format = THREE.RGBFormat;
+    // const videoTexture = new THREE.VideoTexture(video);
+    // videoTexture.minFilter = THREE.LinearFilter;
+    // videoTexture.magFilter = THREE.LinearFilter;
+    // videoTexture.format = THREE.RGBFormat;
 
     // Calculate the aspect ratio
     const aspectRatio = window.innerWidth / window.innerHeight;
@@ -103,7 +103,7 @@ function App() {
     // Create the plane geometry based on the aspect ratio
     const planeGeometry = new THREE.PlaneGeometry(width * 12, height * 20);
     const planeMaterial = new THREE.MeshBasicMaterial({ 
-      map: videoTexture,
+      color: 0xffffff, // Set to white
       side: THREE.DoubleSide 
     });
     const videoPlane = new THREE.Mesh(planeGeometry, planeMaterial);
@@ -160,7 +160,7 @@ function App() {
           const theta = (i / diamondsPerRing) * Math.PI * 2;  // Horizontal angle
           
           const geometry = new THREE.OctahedronGeometry(0.3);  // Smaller diamonds
-          const material = new THREE.MeshBasicMaterial({ map: videoTexture });
+          const material = new THREE.MeshBasicMaterial({ color: 0x0000ff }); // Set to blue
           const diamond = new THREE.Mesh(geometry, material);
 
           // Calculate spherical coordinates
