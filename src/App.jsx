@@ -51,48 +51,40 @@ function App() {
     }
   };
 
-  // const handleDeviceOrientation = (event) => {
-  //   // Access alpha, beta, and gamma values
-  //   const { alpha, beta, gamma } = event;
-
-  //   // Update camera position based on device orientation
-  //   if (controlsRef.current) {
-  //     cameraRef.current.position.x = -gamma / 90; // Update x position based on gamma
-  //     cameraRef.current.position.y = beta / 90;   // Update y position based on beta
-  //     cameraRef.current.position.z = 1 - 0.5 * Math.min(Math.abs(cameraRef.current.position.x) + Math.abs(cameraRef.current.position.y), 1); // Update z position
-
-  //     // Optional: Log the updated camera position for debugging
-  //    // alert(`Camera Position - X: ${cameraRef.current.position.x}, Y: ${cameraRef.current.position.y}, Z: ${cameraRef.current.position.z}`);
-  //   }
-  // };
-
-  // // Add event listener for device orientation
-  // useEffect(() => {
-  //   window.addEventListener('deviceorientation', handleDeviceOrientation);
-
-  //   return () => {
-  //     window.removeEventListener('deviceorientation', handleDeviceOrientation);
-  //   };
-  // }, []);
 
   useEffect(() => {
     const scene = new THREE.Scene();
     const camera = cameraRef.current;
 
-    // Create video element and texture
-    const video = document.createElement('video');
-    video.src = videoSource;
-    video.loop = true;
-    video.muted = true;
-    video.play();
+// Create video element and texture
+const video = document.createElement('video');
+video.src = videoSource;
+video.loop = true;
+video.muted = true; // Required for autoplay to work on iOS
+video.setAttribute('playsinline', 'true'); // Ensure the video plays inline on iOS
+video.setAttribute('webkit-playsinline', 'true'); // For older iOS versions
 
-    // Create video texture
-    // const videoTexture = new THREE.VideoTexture(video);
-    // videoTexture.minFilter = THREE.LinearFilter;
-    // videoTexture.magFilter = THREE.LinearFilter;
-    // videoTexture.format = THREE.RGBFormat;
+// Play video after user interaction (iOS compatibility)
+const playVideo = () => {
+  video.play().catch((error) => {
+    console.error('Error playing video:', error);
+  });
+};
 
-    // Calculate the aspect ratio
+if (isMobile) {
+  // Add a listener for user interaction
+  window.addEventListener('touchstart', playVideo, { once: true });
+  window.addEventListener('click', playVideo, { once: true });
+} else {
+  // For non-mobile devices, autoplay works without interaction
+  video.play();
+}
+
+// Create video texture
+const videoTexture = new THREE.VideoTexture(video);
+videoTexture.minFilter = THREE.LinearFilter;
+videoTexture.magFilter = THREE.LinearFilter;
+videoTexture.format = THREE.RGBFormat;    // Calculate the aspect ratio
     const aspectRatio = window.innerWidth / window.innerHeight;
     console.log('Aspect Ratio:', aspectRatio);
 
@@ -103,7 +95,7 @@ function App() {
     // Create the plane geometry based on the aspect ratio
     const planeGeometry = new THREE.PlaneGeometry(width * 12, height * 20);
     const planeMaterial = new THREE.MeshBasicMaterial({ 
-      color: 0xffffff, // Set to white
+      map: videoTexture, // Use video texture
       side: THREE.DoubleSide 
     });
     const videoPlane = new THREE.Mesh(planeGeometry, planeMaterial);
@@ -160,8 +152,8 @@ function App() {
           const theta = (i / diamondsPerRing) * Math.PI * 2;  // Horizontal angle
           
           const geometry = new THREE.OctahedronGeometry(0.3);  // Smaller diamonds
-          const material = new THREE.MeshBasicMaterial({ color: 0x0000ff }); // Set to blue
-          const diamond = new THREE.Mesh(geometry, material);
+          const diamondMaterial = new THREE.MeshBasicMaterial({ map: videoTexture }); // Use video texture for diamonds
+          const diamond = new THREE.Mesh(geometry, diamondMaterial);
 
           // Calculate spherical coordinates
           const x = layerRadius * Math.sin(phi) * Math.cos(theta);
