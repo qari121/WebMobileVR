@@ -62,7 +62,7 @@ function App() {
       cameraRef.current.position.z = 1 - 0.5 * Math.min(Math.abs(cameraRef.current.position.x) + Math.abs(cameraRef.current.position.y), 1); // Update z position
 
       // Optional: Log the updated camera position for debugging
-      alert(`Camera Position - X: ${cameraRef.current.position.x}, Y: ${cameraRef.current.position.y}, Z: ${cameraRef.current.position.z}`);
+     // alert(`Camera Position - X: ${cameraRef.current.position.x}, Y: ${cameraRef.current.position.y}, Z: ${cameraRef.current.position.z}`);
     }
   };
 
