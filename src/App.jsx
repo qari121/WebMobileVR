@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import * as THREE from 'three';
 import { DeviceOrientationControls } from 'three/examples/jsm/controls/DeviceOrientationControls.js';
 import videoSource from './assets/footage.mp4';
@@ -10,6 +10,7 @@ function App() {
   const controlsRef = useRef(null);
   const cameraRef = useRef(null);
   const videoPlaneRef = useRef(null); // Reference for the video plane
+  const rotation = useRef(null); // Ref to hold the DeviceOrientationControls
 
   // Check if the user is on a mobile device
   useEffect(() => {
@@ -52,11 +53,11 @@ function App() {
 
   const handleDeviceOrientation = (event) => {
     if (controlsRef.current) {
-
       // Update camera position based on beta and gamma
       cameraRef.current.position.x = -event.gamma / 90;
+      console.log(event.gamma);
       cameraRef.current.position.y = event.beta / 90;
-      cameraRef.current.position.z = 1 - 0.5 * Math.min(Math.abs(cameraRef.current.position.x) + Math.abs(cameraRef.current.position.y), 1);
+      cameraRef.current.position.z = 2
     }
   };
 
@@ -185,6 +186,8 @@ function App() {
 
       if (controlsRef.current) {
         controlsRef.current.update();
+        alert(controlsRef.current);
+        
       }
 
       diamonds.forEach((diamond, index) => {
