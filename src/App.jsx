@@ -55,8 +55,15 @@ function App() {
     // Access alpha, beta, and gamma values
     const { alpha, beta, gamma } = event;
 
-    // Use alert to display the values
-    alert(`Alpha: ${alpha}, Beta: ${beta}, Gamma: ${gamma}`);
+    // Update camera position based on device orientation
+    if (controlsRef.current) {
+      cameraRef.current.position.x = -gamma / 90; // Update x position based on gamma
+      cameraRef.current.position.y = beta / 90;   // Update y position based on beta
+      cameraRef.current.position.z = 1 - 0.5 * Math.min(Math.abs(cameraRef.current.position.x) + Math.abs(cameraRef.current.position.y), 1); // Update z position
+
+      // Optional: Log the updated camera position for debugging
+      alert(`Camera Position - X: ${cameraRef.current.position.x}, Y: ${cameraRef.current.position.y}, Z: ${cameraRef.current.position.z}`);
+    }
   };
 
   // Add event listener for device orientation
