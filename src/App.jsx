@@ -38,6 +38,23 @@ function App() {
     }
   }
 
+  const handleDeviceOrientation = (event) => {
+    if (controlsRef.current) {
+        controlsRef.current.alpha = event.alpha; // Rotation around the z-axis
+        controlsRef.current.beta = event.beta;   // Rotation around the x-axis
+        controlsRef.current.gamma = event.gamma; // Rotation around the y-axis
+    }
+  }
+
+  // Add event listener for device orientation
+  useEffect(() => {
+    window.addEventListener('deviceorientation', handleDeviceOrientation)
+
+    return () => {
+        window.removeEventListener('deviceorientation', handleDeviceOrientation)
+    }
+  }, [])
+
   useEffect(() => {
     const scene = new THREE.Scene()
     const camera = cameraRef.current
@@ -70,19 +87,9 @@ function App() {
     videoPlane.position.z = -15
     scene.add(videoPlane)
 
-    // Add window resize handler
-    const handleResize = () => {
-        camera.aspect = window.innerWidth / window.innerHeight
-        camera.updateProjectionMatrix()
-        renderer.setSize(window.innerWidth, window.innerHeight)
-        
-        // Update plane size on resize
-        const newPlaneHeight = 2 * Math.tan(vFov / 2) * distance
-        const newPlaneWidth = newPlaneHeight * (window.innerWidth / window.innerHeight)
-        videoPlane.geometry = new THREE.PlaneGeometry(newPlaneWidth, newPlaneHeight)
-    }
-
-    window.addEventListener('resize', handleResize)
+    // Set the camera's aspect ratio only once during initialization
+    cameraRef.current.aspect = window.innerWidth / window.innerHeight
+    cameraRef.current.updateProjectionMatrix()
 
     const renderer = new THREE.WebGLRenderer()
     renderer.setSize(window.innerWidth, window.innerHeight)
@@ -192,7 +199,6 @@ function App() {
         if (controlsRef.current) {
           controlsRef.current.dispose()
         }
-        window.removeEventListener('resize', handleResize)
         mountRef.current.removeChild(renderer.domElement)
     }
   }, [])
