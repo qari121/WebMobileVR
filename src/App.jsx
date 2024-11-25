@@ -96,7 +96,7 @@ function App() {
       map: videoTexture, // Use video texture
       side: THREE.DoubleSide 
     });
-    const planeGeometry = new THREE.PlaneGeometry(width * 12, height * 20);
+    const planeGeometry = new THREE.PlaneGeometry(width * 25, height * 20);
     const videoPlane = new THREE.Mesh(planeGeometry, planeMaterial);
     videoPlane.position.z = -5; // Position it further back to ensure visibility
     scene.add(videoPlane);
