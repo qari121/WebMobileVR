@@ -173,7 +173,7 @@ function App() {
     fontLoader.load('node_modules/three/examples/fonts/helvetiker_bold.typeface.json', (font) => {
       const textGeometry = new TextGeometry('Shifting your perspective', {
         font: font,
-        size: 1, // Adjust size as needed
+        size: 10, // Adjust size as needed
         height: 0.1,
         curveSegments: 12,
         bevelEnabled: true,
