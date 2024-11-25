@@ -179,8 +179,7 @@ function App() {
           const { alpha, beta, gamma } = controlsRef.current.deviceOrientation;
 
           // Update camera position based on device orientation
-          cameraRef.current.lookAt.x = -gamma / 90; // Update x position based on gamma
-          cameraRef.current.lookAt.y = beta / 90;   // Update y position based on beta
+          cameraRef.current.lookAt.x = THREE.MathUtils.clamp(-gamma / 90, -1, 1); // Clamped value          cameraRef.current.lookAt.y = beta / 90;   // Update y position based on beta
           cameraRef.current.lookAt.z = 8; // Update z position
           //cameraRef.current.lookAt(0, 0, 0);
 
