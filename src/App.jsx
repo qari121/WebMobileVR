@@ -9,7 +9,6 @@ function App() {
   const [isMobile, setIsMobile] = useState(false);
   const controlsRef = useRef(null);
   const cameraRef = useRef(null);
-  const videoPlaneRef = useRef(null); // Reference for the video plane
   const [cameraYPosition, setCameraYPosition] = useState(0);
   const [lookAtX, setLookAtX] = useState(0); // State to hold lookAt.x value
 
@@ -23,7 +22,7 @@ function App() {
   // Initialize camera only once
   useEffect(() => {
     cameraRef.current = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    cameraRef.current.position.set(0, 0, 10); // Adjusted for better visibility
+    cameraRef.current.position.set(0, 0, 0); // Position the camera at the center
   }, []); // Empty dependency array ensures this runs only once
 
   const initGyroControls = () => {
@@ -84,27 +83,17 @@ function App() {
     videoTexture.magFilter = THREE.LinearFilter;
     videoTexture.format = THREE.RGBFormat;
 
-    // Calculate the aspect ratio
-    const aspectRatio = window.innerWidth / window.innerHeight;
-
-    // Set a fixed height for the plane
-    const height = 2; // You can adjust this value as needed
-    const width = aspectRatio * height; // Calculate width based on aspect ratio
-
-    // Create the plane geometry based on the aspect ratio
-    const planeMaterial = new THREE.MeshBasicMaterial({ 
-      map: videoTexture, // Use video texture
-      side: THREE.DoubleSide 
+    // Create a skybox using a cube geometry
+    const skyboxGeometry = new THREE.BoxGeometry(100, 100, 100); // Large cube to encompass the scene
+    const skyboxMaterial = new THREE.MeshBasicMaterial({
+      map: videoTexture,
+      side: THREE.BackSide // Render the inside of the cube
     });
-    const planeGeometry = new THREE.PlaneGeometry(width * 25, height * 20);
-    const videoPlane = new THREE.Mesh(planeGeometry, planeMaterial);
-    videoPlane.position.z = -5; // Position it further back to ensure visibility
-    scene.add(videoPlane);
-    videoPlaneRef.current = videoPlane; // Store reference to the video plane
+    const skybox = new THREE.Mesh(skyboxGeometry, skyboxMaterial);
+    scene.add(skybox); // Add the skybox to the scene
 
-    // Set the camera's aspect ratio
-    cameraRef.current.aspect = aspectRatio;
-    cameraRef.current.updateProjectionMatrix();
+    // Set the camera's position
+    camera.position.set(0, 0, 8); // Position the camera at the center of the skybox
 
     const renderer = new THREE.WebGLRenderer();
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -113,8 +102,8 @@ function App() {
     // Handle window resize
     const handleResize = () => {
       const newAspectRatio = window.innerWidth / window.innerHeight;
-      cameraRef.current.aspect = newAspectRatio;
-      cameraRef.current.updateProjectionMatrix();
+      camera.aspect = newAspectRatio;
+      camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
     };
 
@@ -166,7 +155,6 @@ function App() {
 
     // Animation loop with layer-by-layer convergence
     let time = 0;
-    const dampingFactor = 0.1; // Adjust this value to control the damping effect
 
     function animate() {
       requestAnimationFrame(animate);
@@ -179,11 +167,11 @@ function App() {
           // Access alpha, beta, and gamma values
           const { alpha, beta, gamma } = controlsRef.current.deviceOrientation;
 
-          // Update camera position based on device orientation with damping
-          cameraRef.current.lookAt.x = THREE.MathUtils.clamp(-gamma * dampingFactor / 90, -1, 1); // Clamped value with damping
-          cameraRef.current.lookAt.y = beta * dampingFactor / 90;   // Update y position based on beta with damping
-          cameraRef.current.lookAt.z = 8; // Update z position
-          //cameraRef.current.lookAt(0, 0, 0);
+          // Update camera position based on device orientation
+          cameraRef.current.position.x = -gamma / 90; // Update x position based on gamma
+          cameraRef.current.position.y = beta / 90;   // Update y position based on beta
+          cameraRef.current.position.z = 8; // Update z position
+          cameraRef.current.lookAt(0, 0, 0);
 
           // Update the state with the camera's y position for the debug log
           setCameraYPosition(cameraRef.current.position.y); // Update state with y position
