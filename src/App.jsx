@@ -85,11 +85,11 @@ function App() {
     videoTexture.magFilter = THREE.LinearFilter;
     videoTexture.format = THREE.RGBFormat;
 
-    // Create a skybox using a cube geometry
-    const skyboxGeometry = new THREE.BoxGeometry(100, 100, 100); // Large cube to encompass the scene
+    // Create a sky sphere using a sphere geometry
+    const skyboxGeometry = new THREE.SphereGeometry(100, 32, 32); // Large sphere to encompass the scene
     const skyboxMaterial = new THREE.MeshBasicMaterial({
       map: videoTexture,
-      side: THREE.BackSide // Render the inside of the cube
+      side: THREE.BackSide // Render the inside of the sphere
     });
     const skybox = new THREE.Mesh(skyboxGeometry, skyboxMaterial);
     scene.add(skybox); // Add the skybox to the scene
