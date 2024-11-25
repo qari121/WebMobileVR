@@ -2,6 +2,8 @@ import { useState, useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { DeviceOrientationControls } from 'three/examples/jsm/controls/DeviceOrientationControls.js';
 import videoSource from './assets/footage.mp4';
+import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js';
+import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js';
 
 function App() {
   const mountRef = useRef(null);
@@ -11,6 +13,7 @@ function App() {
   const cameraRef = useRef(null);
   const videoPlaneRef = useRef(null); // Reference for the video plane
   const [cameraYPosition, setCameraYPosition] = useState(0);
+  const [lookAtX, setLookAtX] = useState(0); // State to hold lookAt.x value
 
   // Check if the user is on a mobile device
   useEffect(() => {
@@ -123,7 +126,22 @@ function App() {
     window.addEventListener('resize', handleResize);
 
     // Load the font and create text geometry
+    const loader = new FontLoader();
+    loader.load('node_modules/three/examples/fonts/helvetiker_regular.typeface.json', function (font) {
+      const textGeometry = new TextGeometry('Hello three.js!', {
+        font: font,
+        size: 10, // Increase size for better visibility
+        height: 0.1,
+        curveSegments: 12,
+        bevelEnabled: false,
+      });
 
+      const textMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
+      const textMesh = new THREE.Mesh(textGeometry, textMaterial);
+      textMesh.position.set(-2, 0, 9); // Position the text in front of the video plane
+      scene.add(textMesh); // Add the text mesh to the scene
+      console.log('Text mesh added to the scene:', textMesh); // Debug log to confirm text display
+    });
 
     // Commenting out the diamond creation and animation logic
 
@@ -153,14 +171,18 @@ function App() {
           const { alpha, beta, gamma } = controlsRef.current.deviceOrientation;
 
           // Update camera position based on device orientation
-          cameraRef.current.lookAt.x = -gamma / 90; // Update x position based on gamma
-          cameraRef.current.lookAt.y = beta / 90;   // Update y position based on beta
-          cameraRef.current.lookAt.z = 8; // Update z position
-       
+          cameraRef.current.position.x = -gamma / 90; // Update x position based on gamma
+          cameraRef.current.position.y = beta / 90;   // Update y position based on beta
+          cameraRef.current.position.z = 8; // Update z position
+          cameraRef.current.lookAt.x = -gamma / 90; // Update lookAt.x based on gamma
+          cameraRef.current.lookAt.y = beta / 90;   // Update lookAt.y based on beta
+
+          // Log lookAt.x value
+          console.log('lookAt.x:', cameraRef.current.lookAt.x); // Debug log for lookAt.x
 
           // Update the state with the camera's y position for the debug log
           setCameraYPosition(cameraRef.current.position.y); // Update state with y position
-          console.log(cameraRef.current.position.y); // Log the y position to the console
+          setLookAtX(cameraRef.current.lookAt.x); // Update state with lookAt.x
         }
 
         // Render the scene
@@ -238,7 +260,8 @@ function App() {
         zIndex: 1000,
         fontSize: '16px'
       }}>
-        Camera Y Position: {cameraYPosition.toFixed(2)}
+        Camera Y Position: {cameraYPosition.toFixed(2)}<br />
+        LookAt X Position: {lookAtX.toFixed(2)} {/* Display lookAt.x value */}
       </div>
     </div>
   );
