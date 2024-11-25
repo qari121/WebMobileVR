@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { DeviceOrientationControls } from 'three/examples/jsm/controls/DeviceOrientationControls.js';
-import videoSource from './assets/footage.mp4';
+import videoSource from './assets/s25.mp4';
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js';
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js';
 
@@ -212,26 +212,6 @@ function App() {
     }
     animate();
     
-    // Load font and create text
-    // const fontLoader = new FontLoader();
-    // fontLoader.load('node_modules/three/examples/fonts/helvetiker_bold.typeface.json', (font) => {
-    //   const textGeometry = new TextGeometry('Hello World!', {
-    //     font: font,
-    //     size: 10,
-    //     height: 0.1,
-    //     curveSegments: 12,
-    //     bevelEnabled: true,
-    //     bevelThickness: 0.09,
-    //     bevelSize: 0.07,
-    //     bevelOffset: 0,
-    //     bevelSegments: 5
-    //   });
-
-    //   const textMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
-    //   const textMesh = new THREE.Mesh(textGeometry, textMaterial);
-    //   textMesh.position.set(-10, -2, 1); // Position the text in the scene
-    //   scene.add(textMesh); // Add the text mesh to the scene
-    // });
     
     // Cleanup
     return () => {
@@ -304,6 +284,40 @@ function App() {
       }}>
         Camera Y Position: {typeof cameraYPosition === 'number' ? cameraYPosition.toFixed(2) : 'N/A'}<br />
         LookAt X Position: {typeof lookAtX === 'number' ? lookAtX.toFixed(2) : 'N/A'} {/* Display lookAt.x value */}
+      </div>
+      <div style={{
+        position: 'absolute',
+        bottom: '100px', // Adjust as needed
+        left: '50%',
+        transform: 'translateX(-50%)',
+        display: 'flex',
+        gap: '20px', // Space between buttons
+        zIndex: 1000
+      }}>
+        <a href="https://slopes.events-liontree.com/i/preview/rsvp" target="_blank" rel="noopener noreferrer">
+          <button style={{
+            padding: '10px 20px',
+            backgroundColor: 'rgba(255, 255, 255, 0.8)',
+            border: 'none',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            fontSize: '16px'
+          }}>
+            RSVP
+          </button>
+        </a>
+        <a href="https://vimeo.com/alexhoxie/review/920675397/6133175eb0" target="_blank" rel="noopener noreferrer">
+          <button style={{
+            padding: '10px 20px',
+            backgroundColor: 'rgba(255, 255, 255, 0.8)',
+            border: 'none',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            fontSize: '16px'
+          }}>
+            2024 Recap
+          </button>
+        </a>
       </div>
     </div>
   );
