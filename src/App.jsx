@@ -182,7 +182,7 @@ function App() {
           cameraRef.current.lookAt.x = -gamma / 90; // Update x position based on gamma
           cameraRef.current.lookAt.y = beta / 90;   // Update y position based on beta
           cameraRef.current.lookAt.z = 8; // Update z position
-          cameraRef.current.lookAt(0, 0, 0);
+          //cameraRef.current.lookAt(0, 0, 0);
 
           // Update the state with the camera's y position for the debug log
           setCameraYPosition(cameraRef.current.position.y); // Update state with y position
