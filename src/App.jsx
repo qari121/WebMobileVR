@@ -279,8 +279,8 @@ function App() {
         zIndex: 1000,
         fontSize: '16px'
       }}>
-        Camera Y Position: {cameraYPosition.toFixed(2)}<br />
-        LookAt X Position: {lookAtX.toFixed(2)} {/* Display lookAt.x value */}
+        Camera Y Position: {typeof cameraYPosition === 'number' ? cameraYPosition.toFixed(2) : 'N/A'}<br />
+        LookAt X Position: {typeof lookAtX === 'number' ? lookAtX.toFixed(2) : 'N/A'} {/* Display lookAt.x value */}
       </div>
     </div>
   );
