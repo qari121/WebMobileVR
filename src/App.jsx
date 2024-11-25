@@ -179,9 +179,9 @@ function App() {
           const { alpha, beta, gamma } = controlsRef.current.deviceOrientation;
 
           // Update camera position based on device orientation
-          cameraRef.current.position.x = -gamma / 90; // Update x position based on gamma
-          cameraRef.current.position.y = beta / 90;   // Update y position based on beta
-          cameraRef.current.position.z = 8; // Update z position
+          cameraRef.current.lookAt.x = -gamma / 90; // Update x position based on gamma
+          cameraRef.current.lookAt.y = beta / 90;   // Update y position based on beta
+          cameraRef.current.lookAt.z = 8; // Update z position
           cameraRef.current.lookAt(0, 0, 0);
 
           // Update the state with the camera's y position for the debug log
