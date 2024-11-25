@@ -155,42 +155,6 @@ function App() {
       }
     }
 
-    // After creating the diamonds and before the animation loop
-    const diamondPositions = diamonds.map(diamond => diamond.position);
-    const averagePosition = diamondPositions.reduce((acc, pos) => {
-      acc.x += pos.x;
-      acc.y += pos.y;
-      acc.z += pos.z;
-      return acc;
-    }, { x: 0, y: 0, z: 0 });
-
-    averagePosition.x /= diamonds.length;
-    averagePosition.y /= diamonds.length;
-    averagePosition.z /= diamonds.length;
-
-    // Load font and create text
-    const fontLoader = new FontLoader();
-    fontLoader.load('node_modules/three/examples/fonts/helvetiker_bold.typeface.json', (font) => {
-      const textGeometry = new TextGeometry('Shifting your perspective', {
-        font: font,
-        size: 10, // Adjust size as needed
-        height: 0.1,
-        curveSegments: 12,
-        bevelEnabled: true,
-        bevelThickness: 0.1,
-        bevelSize: 0.05,
-        bevelOffset: 0,
-        bevelSegments: 5
-      });
-
-      const textMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
-      const textMesh = new THREE.Mesh(textGeometry, textMaterial);
-      
-      // Position the text at the average position of the diamonds
-      textMesh.position.set(averagePosition.x, averagePosition.y, averagePosition.z + 1); // Adjust Z for visibility
-      scene.add(textMesh); // Add the text mesh to the scene
-    });
-    
     // Animation loop with layer-by-layer convergence
     let time = 0;
 
@@ -247,6 +211,8 @@ function App() {
       time += 0.01; // Increment time for animation
     }
     animate();
+    
+    // Load font and create text
     
     // Cleanup
     return () => {
