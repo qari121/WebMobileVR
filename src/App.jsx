@@ -164,58 +164,30 @@ function App() {
 
           const { alpha, beta, gamma } = controlsRef.current.deviceOrientation;
 
-          // Convert beta and gamma from degrees to radians
-          const betaRadians = beta * (Math.PI / 180);
-          const gammaRadians = gamma * (Math.PI / 180);
+          // Check if beta and gamma are defined
+          if (beta !== undefined && gamma !== undefined) {
+            // Convert beta and gamma from degrees to radians
+            const betaRadians = beta * (Math.PI / 180);
+            const gammaRadians = gamma * (Math.PI / 180);
 
-          // Calculate the new y position based on beta in radians
-          const newYPosition = Math.sin(betaRadians); // Use sine for smoother transitions
+            // Calculate the new y position based on beta in radians
+            const newYPosition = Math.sin(betaRadians); // Use sine for smoother transitions
 
-          // Smoothly interpolate to the new y position
-          cameraRef.current.position.y += (newYPosition - cameraRef.current.position.y) * smoothingFactor;
+            // Smoothly interpolate to the new y position
+            cameraRef.current.position.y += (newYPosition - cameraRef.current.position.y) * smoothingFactor;
 
-          // Update x position based on gamma in radians
-          cameraRef.current.position.x = -Math.sin(gammaRadians); // Use sine for smoother transitions
-          cameraRef.current.position.z = 8; // Update z position
-          cameraRef.current.lookAt(0, 0, 0);
+            // Update x position based on gamma in radians
+            cameraRef.current.position.x = -Math.sin(gammaRadians); // Use sine for smoother transitions
+            cameraRef.current.position.z = 8; // Update z position
+            cameraRef.current.lookAt(0, 0, 0);
 
-          // Update the state with the camera's y position for the debug log
-          setCameraYPosition(cameraRef.current.position.y);
-          console.log(cameraRef.current.position.y);
+            // Update the state with the camera's y position for the debug log
+            setCameraYPosition(cameraRef.current.position.y);
+            console.log(cameraRef.current.position.y); // Log the y position
+          } else {
+            console.warn('Beta or Gamma is undefined:', { beta, gamma });
+          }
         }
-
-        // Convergence logic for diamonds
-        // diamonds.forEach((diamond, index) => {
-        //   const initialPos = initialPositions[index];
-        //   const layerIndex = Math.floor(index / (diamondsPerRing * numRings));
-          
-        //   // Adjust convergence logic to layer by layer
-        //   const layerDelay = layerIndex * 0.5; // Delay for each layer
-        //   const convergence = Math.max(0, Math.sin(time * 1.5 - layerDelay) * 0.9);
-        //   const convergenceScale = 1 - convergence;
-
-        //   // Calculate rotated positions
-        //   const rotatedX = initialPos.x * Math.cos(time * layerRotationSpeeds[layerIndex]) - initialPos.y * Math.sin(time * layerRotationSpeeds[layerIndex]);
-        //   const rotatedY = initialPos.x * Math.sin(time * layerRotationSpeeds[layerIndex]) + initialPos.y * Math.cos(time * layerRotationSpeeds[layerIndex]);
-        //   const rotatedZ = initialPos.z;
-
-        //   // Commenting out the rotation of diamonds
-        //   // diamond.rotation.x = Math.random() * Math.PI;
-        //   // diamond.rotation.y = Math.random() * Math.PI;
-        //   // diamond.rotation.z = Math.random() * Math.PI;
-
-        //   // Update diamond positions based on convergence
-        //   diamond.position.x = rotatedX * convergenceScale;
-        //   diamond.position.y = rotatedY * convergenceScale;
-        //   diamond.position.z = rotatedZ * convergenceScale;
-
-        //   // Scale adjustment
-        //   const scale = 0.9 + convergence * 0.2;  // Reduced scale variation
-        //   diamond.scale.set(scale, scale, scale);
-        // });
-
-        // Render the scene
-        renderer.render(scene, cameraRef.current);
       }
     }
     animate();
