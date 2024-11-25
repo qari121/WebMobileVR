@@ -12,6 +12,7 @@ function App() {
   const controlsRef = useRef(null);
   const cameraRef = useRef(null);
   const videoPlaneRef = useRef(null); // Reference for the video plane
+  const [cameraYPosition, setCameraYPosition] = useState(0);
 
   // Check if the user is on a mobile device
   useEffect(() => {
@@ -91,14 +92,15 @@ function App() {
     const height = 2; // You can adjust this value as needed
     const width = aspectRatio * height; // Calculate width based on aspect ratio
 
-    // Commenting out the plane geometry and material creation
-    
+    // Commenting out the video texture for the plane
+    // const planeMaterial = new THREE.MeshBasicMaterial({ 
+    //   map: videoTexture, // Use video texture
+    //   side: THREE.DoubleSide 
+    // });
+    const planeMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide }); // Set plane color to white
+
     // Create the plane geometry based on the aspect ratio
     const planeGeometry = new THREE.PlaneGeometry(width * 12, height * 20);
-    const planeMaterial = new THREE.MeshBasicMaterial({ 
-      map: videoTexture, // Use video texture
-      side: THREE.DoubleSide 
-    });
     const videoPlane = new THREE.Mesh(planeGeometry, planeMaterial);
     videoPlane.position.z = -5; // Position it further back to ensure visibility
     scene.add(videoPlane);
@@ -170,7 +172,9 @@ function App() {
           const theta = (i / diamondsPerRing) * Math.PI * 2;  // Horizontal angle
           
           const geometry = new THREE.OctahedronGeometry(0.3);  // Smaller diamonds
-          const diamondMaterial = new THREE.MeshBasicMaterial({ map: videoTexture }); // Use video texture for diamonds
+          // Commenting out the video texture for diamonds
+          // const diamondMaterial = new THREE.MeshBasicMaterial({ map: videoTexture }); // Use video texture for diamonds
+          const diamondMaterial = new THREE.MeshBasicMaterial({ color: 0x0000ff }); // Set diamond color to blue
           const diamond = new THREE.Mesh(geometry, diamondMaterial);
 
           // Calculate spherical coordinates
@@ -211,6 +215,10 @@ function App() {
           cameraRef.current.position.y = beta / 90;   // Update y position based on beta
           cameraRef.current.position.z = 8; // Update z position
           cameraRef.current.lookAt(0, 0, 0);
+
+          // Update the state with the camera's y position for the debug log
+          setCameraYPosition(cameraRef.current.position.y); // Update state with y position
+          console.log(cameraRef.current.position.y); // Log the y position to the console
         }
 
         // Convergence logic for diamonds
@@ -228,16 +236,15 @@ function App() {
           const rotatedY = initialPos.x * Math.sin(time * layerRotationSpeeds[layerIndex]) + initialPos.y * Math.cos(time * layerRotationSpeeds[layerIndex]);
           const rotatedZ = initialPos.z;
 
+          // Commenting out the rotation of diamonds
+          // diamond.rotation.x = Math.random() * Math.PI;
+          // diamond.rotation.y = Math.random() * Math.PI;
+          // diamond.rotation.z = Math.random() * Math.PI;
+
           // Update diamond positions based on convergence
           diamond.position.x = rotatedX * convergenceScale;
           diamond.position.y = rotatedY * convergenceScale;
           diamond.position.z = rotatedZ * convergenceScale;
-
-          // Update rotation
-          const rotationSpeed = 0.02 + (layerIndex * 0.003);
-          diamond.rotation.x += rotationSpeed;
-          diamond.rotation.y += rotationSpeed;
-          diamond.rotation.z += rotationSpeed;
 
           // Scale adjustment
           const scale = 0.9 + convergence * 0.2;  // Reduced scale variation
@@ -309,6 +316,19 @@ function App() {
           For the best experience, please use a mobile device.
         </div>
       )}
+      <div style={{
+        position: 'absolute',
+        bottom: '20px',
+        left: '20px',
+        padding: '10px',
+        backgroundColor: 'rgba(255, 255, 255, 0.8)',
+        border: '1px solid #000',
+        borderRadius: '5px',
+        zIndex: 1000,
+        fontSize: '16px'
+      }}>
+        Camera Y Position: {cameraYPosition.toFixed(2)}
+      </div>
     </div>
   );
 }
