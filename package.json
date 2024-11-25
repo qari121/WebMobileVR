@@ -12,7 +12,7 @@
   "dependencies": {
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "three": "^0.132.2"
+    "three": "^0.133.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.13.0",
