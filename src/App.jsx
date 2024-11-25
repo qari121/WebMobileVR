@@ -2,8 +2,6 @@ import { useState, useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { DeviceOrientationControls } from 'three/examples/jsm/controls/DeviceOrientationControls.js';
 import videoSource from './assets/footage.mp4';
-import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js';
-import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js';
 
 function App() {
   const mountRef = useRef(null);
@@ -125,23 +123,8 @@ function App() {
 
     window.addEventListener('resize', handleResize);
 
-    // Load the font and create text geometry
-    const loader = new FontLoader();
-    loader.load('node_modules/three/examples/fonts/helvetiker_regular.typeface.json', function (font) {
-      const textGeometry = new TextGeometry('Hello three.js!', {
-        font: font,
-        size: 10, // Increase size for better visibility
-        height: 0.1,
-        curveSegments: 12,
-        bevelEnabled: false,
-      });
-
-      const textMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
-      const textMesh = new THREE.Mesh(textGeometry, textMaterial);
-      textMesh.position.set(-2, 0, 9); // Position the text in front of the video plane
-      scene.add(textMesh); // Add the text mesh to the scene
-      console.log('Text mesh added to the scene:', textMesh); // Debug log to confirm text display
-    });
+    //
+    
 
     // Commenting out the diamond creation and animation logic
     
