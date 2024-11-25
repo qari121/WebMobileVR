@@ -166,6 +166,7 @@ function App() {
 
     // Animation loop with layer-by-layer convergence
     let time = 0;
+    const dampingFactor = 0.1; // Adjust this value to control the damping effect
 
     function animate() {
       requestAnimationFrame(animate);
@@ -178,8 +179,9 @@ function App() {
           // Access alpha, beta, and gamma values
           const { alpha, beta, gamma } = controlsRef.current.deviceOrientation;
 
-          // Update camera position based on device orientation
-          cameraRef.current.lookAt.x = THREE.MathUtils.clamp(-gamma / 90, -1, 1); // Clamped value          cameraRef.current.lookAt.y = beta / 90;   // Update y position based on beta
+          // Update camera position based on device orientation with damping
+          cameraRef.current.lookAt.x = THREE.MathUtils.clamp(-gamma * dampingFactor / 90, -1, 1); // Clamped value with damping
+          cameraRef.current.lookAt.y = beta * dampingFactor / 90;   // Update y position based on beta with damping
           cameraRef.current.lookAt.z = 8; // Update z position
           //cameraRef.current.lookAt(0, 0, 0);
 
