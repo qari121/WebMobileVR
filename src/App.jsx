@@ -53,6 +53,14 @@ function App() {
     const scene = new THREE.Scene();
     const camera = cameraRef.current;
 
+    // Add a light source to the scene
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5); // Soft white light
+    scene.add(ambientLight);
+
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 1); // Bright white light
+    directionalLight.position.set(5, 5, 5); // Position the light
+    scene.add(directionalLight);
+
     // Create video element and texture
     const video = document.createElement('video');
     video.src = videoSource;
@@ -128,56 +136,18 @@ function App() {
 
     // Commenting out the diamond creation and animation logic
     
-    // Create group for diamonds
-    const diamondGroup = new THREE.Group();
-    scene.add(diamondGroup);
+    // Create a blue standard cube instead
+    const cubeGeometry = new THREE.BoxGeometry(1, 1, 1); // Create a cube geometry
+    const cubeMaterial = new THREE.MeshStandardMaterial({ 
+        color: 0x0000ff, // Set cube color to blue
+        roughness: 0.5,   // Adjust roughness for a standard
+        metalness: 0.0    // Set metalness to 0 for a non-metallic look
+    });
+    const cube = new THREE.Mesh(cubeGeometry, cubeMaterial); // Create the cube mesh
 
-    // Parameters for diamond formation
-    const numRings = 16;        // Vertical rings
-    const diamondsPerRing = 24; // Diamonds around each ring
-    const numLayers = 8;        // Radial layers (depth of sphere)
-    const maxRadius = 8;        // Sphere radius
-    const diamonds = [];
-    const initialPositions = [];
-
-    const layerRotationSpeeds = Array(numLayers).fill(0).map(() => 
-      0.3 + Math.random() * 0.5  // Random speed between 0.3 and 0.8
-    );
-
-    // Create spherical formation of diamonds
-    for (let layer = 0; layer < numLayers; layer++) {
-      const layerRadius = (layer + 1) * (maxRadius / numLayers);
-      
-      for (let ring = 0; ring < numRings; ring++) {
-        const phi = Math.PI * (ring / (numRings - 1));  // Vertical angle
-        
-        for (let i = 0; i < diamondsPerRing; i++) {
-          const theta = (i / diamondsPerRing) * Math.PI * 2;  // Horizontal angle
-          
-          const geometry = new THREE.OctahedronGeometry(0.3);  // Smaller diamonds
-          // Commenting out the video texture for diamonds
-          // const diamondMaterial = new THREE.MeshBasicMaterial({ map: videoTexture }); // Use video texture for diamonds
-          const diamondMaterial = new THREE.MeshBasicMaterial({ color: 0x0000ff }); // Set diamond color to blue
-          const diamond = new THREE.Mesh(geometry, diamondMaterial);
-
-          // Calculate spherical coordinates
-          const x = layerRadius * Math.sin(phi) * Math.cos(theta);
-          const y = layerRadius * Math.sin(phi) * Math.sin(theta);
-          const z = layerRadius * Math.cos(phi);
-
-          diamond.position.set(x, y, z);
-          initialPositions.push({ x, y, z });
-
-          // Random initial rotation
-          diamond.rotation.x = Math.random() * Math.PI;
-          diamond.rotation.y = Math.random() * Math.PI;
-          diamond.rotation.z = Math.random() * Math.PI;
-
-          diamondGroup.add(diamond);
-          diamonds.push(diamond);
-        }
-      }
-    }
+    // Position the cube in the scene
+    cube.position.set(0, 0, -5); // Adjust position as needed
+    scene.add(cube); // Add the cube to the scene
 
     // Animation loop with layer-by-layer convergence
     let time = 0;
@@ -215,34 +185,34 @@ function App() {
         }
 
         // Convergence logic for diamonds
-        diamonds.forEach((diamond, index) => {
-          const initialPos = initialPositions[index];
-          const layerIndex = Math.floor(index / (diamondsPerRing * numRings));
+        // diamonds.forEach((diamond, index) => {
+        //   const initialPos = initialPositions[index];
+        //   const layerIndex = Math.floor(index / (diamondsPerRing * numRings));
           
-          // Adjust convergence logic to layer by layer
-          const layerDelay = layerIndex * 0.5; // Delay for each layer
-          const convergence = Math.max(0, Math.sin(time * 1.5 - layerDelay) * 0.9);
-          const convergenceScale = 1 - convergence;
+        //   // Adjust convergence logic to layer by layer
+        //   const layerDelay = layerIndex * 0.5; // Delay for each layer
+        //   const convergence = Math.max(0, Math.sin(time * 1.5 - layerDelay) * 0.9);
+        //   const convergenceScale = 1 - convergence;
 
-          // Calculate rotated positions
-          const rotatedX = initialPos.x * Math.cos(time * layerRotationSpeeds[layerIndex]) - initialPos.y * Math.sin(time * layerRotationSpeeds[layerIndex]);
-          const rotatedY = initialPos.x * Math.sin(time * layerRotationSpeeds[layerIndex]) + initialPos.y * Math.cos(time * layerRotationSpeeds[layerIndex]);
-          const rotatedZ = initialPos.z;
+        //   // Calculate rotated positions
+        //   const rotatedX = initialPos.x * Math.cos(time * layerRotationSpeeds[layerIndex]) - initialPos.y * Math.sin(time * layerRotationSpeeds[layerIndex]);
+        //   const rotatedY = initialPos.x * Math.sin(time * layerRotationSpeeds[layerIndex]) + initialPos.y * Math.cos(time * layerRotationSpeeds[layerIndex]);
+        //   const rotatedZ = initialPos.z;
 
-          // Commenting out the rotation of diamonds
-          // diamond.rotation.x = Math.random() * Math.PI;
-          // diamond.rotation.y = Math.random() * Math.PI;
-          // diamond.rotation.z = Math.random() * Math.PI;
+        //   // Commenting out the rotation of diamonds
+        //   // diamond.rotation.x = Math.random() * Math.PI;
+        //   // diamond.rotation.y = Math.random() * Math.PI;
+        //   // diamond.rotation.z = Math.random() * Math.PI;
 
-          // Update diamond positions based on convergence
-          diamond.position.x = rotatedX * convergenceScale;
-          diamond.position.y = rotatedY * convergenceScale;
-          diamond.position.z = rotatedZ * convergenceScale;
+        //   // Update diamond positions based on convergence
+        //   diamond.position.x = rotatedX * convergenceScale;
+        //   diamond.position.y = rotatedY * convergenceScale;
+        //   diamond.position.z = rotatedZ * convergenceScale;
 
-          // Scale adjustment
-          const scale = 0.9 + convergence * 0.2;  // Reduced scale variation
-          diamond.scale.set(scale, scale, scale);
-        });
+        //   // Scale adjustment
+        //   const scale = 0.9 + convergence * 0.2;  // Reduced scale variation
+        //   diamond.scale.set(scale, scale, scale);
+        // });
 
         // Render the scene
         renderer.render(scene, cameraRef.current);
