@@ -91,14 +91,11 @@ function App() {
     const height = 2; // You can adjust this value as needed
     const width = aspectRatio * height; // Calculate width based on aspect ratio
 
-    // Commenting out the video texture for the plane
-    // const planeMaterial = new THREE.MeshBasicMaterial({ 
-    //   map: videoTexture, // Use video texture
-    //   side: THREE.DoubleSide 
-    // });
-    const planeMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide }); // Set plane color to white
-
     // Create the plane geometry based on the aspect ratio
+    const planeMaterial = new THREE.MeshBasicMaterial({ 
+      map: videoTexture, // Use video texture
+      side: THREE.DoubleSide 
+    });
     const planeGeometry = new THREE.PlaneGeometry(width * 12, height * 20);
     const videoPlane = new THREE.Mesh(planeGeometry, planeMaterial);
     videoPlane.position.z = -5; // Position it further back to ensure visibility
@@ -123,20 +120,49 @@ function App() {
 
     window.addEventListener('resize', handleResize);
 
-    // Load the font and create text geometry
+    // Diamond creation and animation logic
+    const diamondGroup = new THREE.Group();
+    scene.add(diamondGroup);
 
-    // Commenting out the diamond creation and animation logic
+    const numRings = 16;        // Vertical rings
+    const diamondsPerRing = 24; // Diamonds around each ring
+    const numLayers = 8;        // Radial layers (depth of sphere)
+    const maxRadius = 8;        // Sphere radius
+    const diamonds = [];
+    const initialPositions = [];
 
-    // Create a blue cube instead
-    const cubeGeometry = new THREE.BoxGeometry(1, 1, 1); // Create a cube geometry
-    const cubeMaterial = new THREE.MeshBasicMaterial({ 
-        color: 0x0000ff // Set cube color to blue
-    });
-    const cube = new THREE.Mesh(cubeGeometry, cubeMaterial); // Create the cube mesh
+    // Create spherical formation of diamonds
+    for (let layer = 0; layer < numLayers; layer++) {
+      const layerRadius = (layer + 1) * (maxRadius / numLayers);
+      
+      for (let ring = 0; ring < numRings; ring++) {
+        const phi = Math.PI * (ring / (numRings - 1));  // Vertical angle
+        
+        for (let i = 0; i < diamondsPerRing; i++) {
+          const theta = (i / diamondsPerRing) * Math.PI * 2;  // Horizontal angle
+          
+          const geometry = new THREE.OctahedronGeometry(0.3);  // Smaller diamonds
+          const diamondMaterial = new THREE.MeshBasicMaterial({ map: videoTexture }); // Use video texture for diamonds
+          const diamond = new THREE.Mesh(geometry, diamondMaterial);
 
-    // Position the cube in the scene
-    cube.position.set(0, 0, -5); // Adjust position as needed
-    scene.add(cube); // Add the cube to the scene
+          // Calculate spherical coordinates
+          const x = layerRadius * Math.sin(phi) * Math.cos(theta);
+          const y = layerRadius * Math.sin(phi) * Math.sin(theta);
+          const z = layerRadius * Math.cos(phi);
+
+          diamond.position.set(x, y, z);
+          initialPositions.push({ x, y, z });
+
+          // Random initial rotation
+          diamond.rotation.x = Math.random() * Math.PI;
+          diamond.rotation.y = Math.random() * Math.PI;
+          diamond.rotation.z = Math.random() * Math.PI;
+
+          diamondGroup.add(diamond);
+          diamonds.push(diamond);
+        }
+      }
+    }
 
     // Animation loop with layer-by-layer convergence
     let time = 0;
@@ -156,20 +182,42 @@ function App() {
           cameraRef.current.position.x = -gamma / 90; // Update x position based on gamma
           cameraRef.current.position.y = beta / 90;   // Update y position based on beta
           cameraRef.current.position.z = 8; // Update z position
-          cameraRef.current.lookAt.x = -gamma / 90; // Update lookAt.x based on gamma
-          cameraRef.current.lookAt.y = beta / 90;   // Update lookAt.y based on beta
-
-          // Log lookAt.x value
-          console.log('lookAt.x:', cameraRef.current.lookAt.x); // Debug log for lookAt.x
+          cameraRef.current.lookAt(0, 0, 0);
 
           // Update the state with the camera's y position for the debug log
           setCameraYPosition(cameraRef.current.position.y); // Update state with y position
           setLookAtX(cameraRef.current.lookAt.x); // Update state with lookAt.x
         }
 
+        // Convergence logic for diamonds
+        diamonds.forEach((diamond, index) => {
+          const initialPos = initialPositions[index];
+          const layerIndex = Math.floor(index / (diamondsPerRing * numRings));
+          
+          // Adjust convergence logic to layer by layer
+          const layerDelay = layerIndex * 0.5; // Delay for each layer
+          const convergence = Math.max(0, Math.sin(time * 1.5 - layerDelay) * 0.9);
+          const convergenceScale = 1 - convergence;
+
+          // Calculate rotated positions
+          const rotatedX = initialPos.x * Math.cos(time * 0.5) - initialPos.y * Math.sin(time * 0.5);
+          const rotatedY = initialPos.x * Math.sin(time * 0.5) + initialPos.y * Math.cos(time * 0.5);
+          const rotatedZ = initialPos.z;
+
+          // Update diamond positions based on convergence
+          diamond.position.x = rotatedX * convergenceScale;
+          diamond.position.y = rotatedY * convergenceScale;
+          diamond.position.z = rotatedZ * convergenceScale;
+
+          // Scale adjustment
+          const scale = 0.9 + convergence * 0.2;  // Reduced scale variation
+          diamond.scale.set(scale, scale, scale);
+        });
+
         // Render the scene
         renderer.render(scene, cameraRef.current);
       }
+      time += 0.01; // Increment time for animation
     }
     animate();
     
