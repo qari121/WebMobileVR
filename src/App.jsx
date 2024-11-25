@@ -214,22 +214,22 @@ function App() {
     
     // Load font and create text
     const fontLoader = new FontLoader();
-    fontLoader.load('/path/to/font.json', (font) => {
+    fontLoader.load('node_modules/three/examples/fonts/helvetiker_bold.typeface.json', (font) => {
       const textGeometry = new TextGeometry('Hello World!', {
         font: font,
-        size: 5,
+        size: 10,
         height: 0.1,
         curveSegments: 12,
         bevelEnabled: true,
-        bevelThickness: 0.05,
-        bevelSize: 0.05,
+        bevelThickness: 0.09,
+        bevelSize: 0.07,
         bevelOffset: 0,
         bevelSegments: 5
       });
 
       const textMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
       const textMesh = new THREE.Mesh(textGeometry, textMaterial);
-      textMesh.position.set(-5, 0, -3); // Position the text in the scene
+      textMesh.position.set(-5, -2, -2); // Position the text in the scene
       scene.add(textMesh); // Add the text mesh to the scene
     });
     
