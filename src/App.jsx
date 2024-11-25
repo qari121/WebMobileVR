@@ -2,6 +2,8 @@ import { useState, useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { DeviceOrientationControls } from 'three/examples/jsm/controls/DeviceOrientationControls.js';
 import videoSource from './assets/footage.mp4';
+import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js';
+import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js';
 
 function App() {
   const mountRef = useRef(null);
@@ -53,14 +55,6 @@ function App() {
     const scene = new THREE.Scene();
     const camera = cameraRef.current;
 
-    // Add a light source to the scene
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5); // Soft white light
-    scene.add(ambientLight);
-
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 1); // Bright white light
-    directionalLight.position.set(5, 5, 5); // Position the light
-    scene.add(directionalLight);
-
     // Create video element and texture
     const video = document.createElement('video');
     video.src = videoSource;
@@ -111,7 +105,6 @@ function App() {
     videoPlane.position.z = -5; // Position it further back to ensure visibility
     scene.add(videoPlane);
     videoPlaneRef.current = videoPlane; // Store reference to the video plane
-    
 
     // Set the camera's aspect ratio
     cameraRef.current.aspect = aspectRatio;
@@ -131,17 +124,30 @@ function App() {
 
     window.addEventListener('resize', handleResize);
 
-    //
-    
+    // Load the font and create text geometry
+    const loader = new FontLoader();
+    loader.load('node_modules/three/examples/fonts/helvetiker_regular.typeface.json', function (font) {
+      const textGeometry = new TextGeometry('Hello three.js!', {
+        font: font,
+        size: 10, // Increase size for better visibility
+        height: 0.1,
+        curveSegments: 12,
+        bevelEnabled: false,
+      });
+
+      const textMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
+      const textMesh = new THREE.Mesh(textGeometry, textMaterial);
+      textMesh.position.set(-2, 0, 9); // Position the text in front of the video plane
+      scene.add(textMesh); // Add the text mesh to the scene
+      console.log('Text mesh added to the scene:', textMesh); // Debug log to confirm text display
+    });
 
     // Commenting out the diamond creation and animation logic
-    
-    // Create a blue standard cube instead
+
+    // Create a blue cube instead
     const cubeGeometry = new THREE.BoxGeometry(1, 1, 1); // Create a cube geometry
-    const cubeMaterial = new THREE.MeshStandardMaterial({ 
-        color: 0x0000ff, // Set cube color to blue
-        roughness: 0.5,   // Adjust roughness for a standard
-        metalness: 0.0    // Set metalness to 0 for a non-metallic look
+    const cubeMaterial = new THREE.MeshBasicMaterial({ 
+        color: 0x0000ff // Set cube color to blue
     });
     const cube = new THREE.Mesh(cubeGeometry, cubeMaterial); // Create the cube mesh
 
@@ -152,8 +158,6 @@ function App() {
     // Animation loop with layer-by-layer convergence
     let time = 0;
 
-    const smoothingFactor = 0.1; // Adjust this value for more or less smoothing
-
     function animate() {
       requestAnimationFrame(animate);
       
@@ -162,37 +166,26 @@ function App() {
         if (controlsRef.current) {
           controlsRef.current.update();
 
+          // Access alpha, beta, and gamma values
           const { alpha, beta, gamma } = controlsRef.current.deviceOrientation;
 
-          // Check if beta and gamma are defined
-          if (beta !== undefined && gamma !== undefined) {
-            // Convert beta and gamma from degrees to radians
-            const betaRadians = beta * (Math.PI / 180);
-            const gammaRadians = gamma * (Math.PI / 180);
+          // Update camera position based on device orientation
+          cameraRef.current.position.x = -gamma / 90; // Update x position based on gamma
+          cameraRef.current.position.y = beta / 90;   // Update y position based on beta
+          cameraRef.current.position.z = 8; // Update z position
+          cameraRef.current.lookAt(0, 0, 0);
 
-            // Calculate the new y position based on beta in radians
-            const newYPosition = Math.sin(betaRadians); // Use sine for smoother transitions
-
-            // Smoothly interpolate to the new y position
-            cameraRef.current.position.y += (newYPosition - cameraRef.current.position.y) * smoothingFactor;
-
-            // Update x position based on gamma in radians
-            cameraRef.current.position.x = -Math.sin(gammaRadians); // Use sine for smoother transitions
-            cameraRef.current.position.z = 8; // Update z position
-            cameraRef.current.lookAt(0, 0, 0);
-
-            // Update the state with the camera's y position for the debug log
-            setCameraYPosition(cameraRef.current.position.y);
-            console.log(cameraRef.current.position.y); // Log the y position
-          } else {
-            console.warn('Beta or Gamma is undefined:', { beta, gamma });
-          }
+          // Update the state with the camera's y position for the debug log
+          setCameraYPosition(cameraRef.current.position.y); // Update state with y position
+          console.log(cameraRef.current.position.y); // Log the y position to the console
         }
+
+        // Render the scene
+        renderer.render(scene, cameraRef.current);
       }
     }
     animate();
     
-
     // Cleanup
     return () => {
       if (controlsRef.current) {
