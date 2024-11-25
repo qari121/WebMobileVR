@@ -194,14 +194,18 @@ function App() {
 
           const { alpha, beta, gamma } = controlsRef.current.deviceOrientation;
 
-          // Calculate the new y position based on beta
-          const newYPosition = beta / 90;
+          // Convert beta and gamma from degrees to radians
+          const betaRadians = beta * (Math.PI / 180);
+          const gammaRadians = gamma * (Math.PI / 180);
+
+          // Calculate the new y position based on beta in radians
+          const newYPosition = Math.sin(betaRadians); // Use sine for smoother transitions
 
           // Smoothly interpolate to the new y position
           cameraRef.current.position.y += (newYPosition - cameraRef.current.position.y) * smoothingFactor;
 
-          // Update x and z positions as before
-          cameraRef.current.position.x = -gamma / 90; // Update x position based on gamma
+          // Update x position based on gamma in radians
+          cameraRef.current.position.x = -Math.sin(gammaRadians); // Use sine for smoother transitions
           cameraRef.current.position.z = 8; // Update z position
           cameraRef.current.lookAt(0, 0, 0);
 
