@@ -4,12 +4,12 @@ import { DeviceOrientationControls } from 'three/examples/jsm/controls/DeviceOri
 import videoSource from './assets/s25.mp4';
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js';
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js';
-import ButtonSVG from './assets/rsvp.svg';
 
 function App() {
   const mountRef = useRef(null);
   const [hasGyroPermission, setHasGyroPermission] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [showButtons, setShowButtons] = useState(false);
   const controlsRef = useRef(null);
   const cameraRef = useRef(null);
   const [cameraYPosition, setCameraYPosition] = useState(0);
@@ -30,6 +30,7 @@ function App() {
     if (cameraRef.current) {
       controlsRef.current = new DeviceOrientationControls(cameraRef.current);
       setHasGyroPermission(true);
+      setShowButtons(true);
       cameraRef.current.lookAt(0, 0, 0);
     }
   };
@@ -243,19 +244,79 @@ function App() {
   }, []);
 
   return (
-<div ref={mountRef} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', overflow: 'hidden' }}>
-  {!hasGyroPermission && (
-    <button onClick={requestGyroPermission} style={{ position: 'absolute', bottom: '20px', left: '50%', transform: 'translateX(-50%)', padding: '10px', borderRadius: '5px', textDecoration: 'none', textAlign: 'center' }}>
-      Enable Device Motion
-    </button>
-  )}
-  <a href="https://slopes.events-liontree.com/i/preview/rsvp" target="_blank" rel="noopener noreferrer" style={{ position: 'absolute', bottom: '50px', left: '50%', transform: 'translateX(-50%)', display: 'inline-block' }}>
-    <img src={ButtonSVG} alt="RSVP" style={{ width: '125px', height: '80px' }} />
-  </a>
-  <a href="https://vimeo.com/alexhoxie/review/920675397/6133175eb0" target="_blank" rel="noopener noreferrer" style={{ position: 'absolute', bottom: '125px', left: '50%', transform: 'translateX(-50%)', padding: '10px', borderRadius: '5px', textDecoration: 'none', textAlign: 'center', display: 'inline-block' }}>
-    2024 Recap
-  </a>
-</div>);
+    <div ref={mountRef} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', overflow: 'hidden' }}>
+      {!hasGyroPermission && (
+        <button onClick={requestGyroPermission} style={{ 
+          position: 'absolute', 
+          bottom: '20px', 
+          left: '50%', 
+          transform: 'translateX(-50%)', 
+          display: 'inline-block', 
+          width: '200px', // Same width as other buttons
+          padding: '10px 0', // Same padding
+          borderRadius: '20px', // Same border radius
+          backgroundColor: 'white', 
+          color: 'black', 
+          textDecoration: 'none', 
+          textAlign: 'center', 
+         // boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)', // Same shadow effect
+          transition: 'background-color 0.3s, transform 0.3s', 
+          fontFamily: 'Inter, sans-serif', 
+          fontWeight: 600 
+        }}>
+          Enable Device Motion
+        </button>
+      )}
+      
+      {/* RSVP Button */}
+      {showButtons && (
+        <a href="https://slopes.events-liontree.com/i/preview/rsvp" target="_blank" rel="noopener noreferrer" style={{ 
+          position: 'absolute', 
+          bottom: '50px', 
+          left: '50%', 
+          transform: 'translateX(-50%)', 
+          display: 'inline-block', 
+          width: '200px', // Same width as other buttons
+          padding: '10px 0', // Same padding
+          borderRadius: '20px', // Same border radius
+          backgroundColor: 'white', 
+          color: 'black', 
+          textDecoration: 'none', 
+          textAlign: 'center', 
+          boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)', // Same shadow effect
+          transition: 'background-color 0.3s, transform 0.3s', 
+          fontFamily: 'Inter, sans-serif', 
+          fontWeight: 600 
+        }}>
+          RSVP
+        </a>
+      )}
+
+      {/* 2024 Recap Button */}
+      {showButtons && (
+        <a href="https://vimeo.com/alexhoxie/review/920675397/6133175eb0" target="_blank" rel="noopener noreferrer" style={{ 
+          position: 'absolute', 
+          bottom: '100px', 
+          left: '50%', 
+          transform: 'translateX(-50%)', 
+          display: 'inline-block', 
+          width: '200px', // Same width as other buttons
+          padding: '10px 0', // Same padding
+          borderRadius: '20px', // Same border radius
+          backgroundColor: 'white', 
+          color: 'black', 
+          textDecoration: 'none', 
+          textAlign: 'center', 
+          boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)', // Same shadow effect
+          transition: 'background-color 0.3s, transform 0.3s', 
+          fontFamily: 'Inter, sans-serif', 
+          fontWeight: 600 
+        }}>
+          2024 Recap
+        </a>
+      )}
+    </div>
+  );
 }
 
 export default App;
