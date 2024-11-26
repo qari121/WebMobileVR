@@ -4,6 +4,7 @@ import { DeviceOrientationControls } from 'three/examples/jsm/controls/DeviceOri
 import videoSource from './assets/s25.mp4';
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js';
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js';
+import ButtonSVG from './assets/rsvp.svg';
 
 function App() {
   const mountRef = useRef(null);
@@ -202,8 +203,8 @@ function App() {
         }
 
         if (textMesh1) {
-          textMesh1.position.y = 3 + Math.sin(time * 2) * 0.5;
-          textMesh1.position.z = 3 + Math.cos(time * 2) * 0.5;
+          textMesh1.position.y = 1 + Math.sin(time * 2) * 0.5;
+          textMesh1.position.z = 1 + Math.cos(time * 2) * 0.5;
         }
 
         diamonds.forEach((diamond, index) => {
@@ -248,10 +249,10 @@ function App() {
       Enable Device Motion
     </button>
   )}
-  <a href=" https://slopes.events-liontree.com/i/preview/rsvp" target="_blank" rel="noopener noreferrer" style={{ position: 'absolute', bottom: '80px', left: '50%', transform: 'translateX(-50%)', padding: '10px', borderRadius: '5px', textDecoration: 'none', textAlign: 'center', display: 'inline-block', backgroundColor: 'white', color: 'black' }}>
-    RSVP
+  <a href="https://slopes.events-liontree.com/i/preview/rsvp" target="_blank" rel="noopener noreferrer" style={{ position: 'absolute', bottom: '50px', left: '50%', transform: 'translateX(-50%)', display: 'inline-block' }}>
+    <img src={ButtonSVG} alt="RSVP" style={{ width: '125px', height: '80px' }} />
   </a>
-  <a  href="https://vimeo.com/alexhoxie/review/920675397/6133175eb0" target="_blank" rel="noopener noreferrer" style={{ position: 'absolute', bottom: '125px', left: '50%', transform: 'translateX(-50%)', padding: '10px', borderRadius: '5px', textDecoration: 'none', textAlign: 'center', display: 'inline-block', backgroundColor: 'white', color: 'black' }}>
+  <a href="https://vimeo.com/alexhoxie/review/920675397/6133175eb0" target="_blank" rel="noopener noreferrer" style={{ position: 'absolute', bottom: '125px', left: '50%', transform: 'translateX(-50%)', padding: '10px', borderRadius: '5px', textDecoration: 'none', textAlign: 'center', display: 'inline-block' }}>
     2024 Recap
   </a>
 </div>);
