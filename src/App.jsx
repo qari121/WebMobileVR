@@ -167,7 +167,7 @@ function App() {
         const textMaterial1 = new THREE.MeshBasicMaterial({ color: 0xffffff });
         textMesh1 = new THREE.Mesh(textGeometry1, textMaterial1);
 
-        textMesh1.position.set(2, 2, 0);
+        textMesh1.position.set(2, 3, -3);
         textMesh1.rotation.y = -Math.PI / 4;
 
         textMesh.position.set(-7, 3, 3);
@@ -199,6 +199,11 @@ function App() {
         if (textMesh) {
           textMesh.position.y = 3 + Math.sin(time * 2) * 0.5;
           textMesh.position.z = 3 + Math.cos(time * 2) * 0.5;
+        }
+
+        if (textMesh1) {
+          textMesh1.position.y = 3 + Math.sin(time * 2) * 0.5;
+          textMesh1.position.z = 3 + Math.cos(time * 2) * 0.5;
         }
 
         diamonds.forEach((diamond, index) => {
@@ -237,14 +242,19 @@ function App() {
   }, []);
 
   return (
-    <div ref={mountRef} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', overflow: 'hidden' }}>
-      {!hasGyroPermission && (
-        <button onClick={requestGyroPermission} style={{ position: 'absolute', bottom: '20px', left: '50%', transform: 'translateX(-50%)' }}>
-          Enable Device Motion
-        </button>
-      )}
-    </div>
-  );
+<div ref={mountRef} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', overflow: 'hidden' }}>
+  {!hasGyroPermission && (
+    <button onClick={requestGyroPermission} style={{ position: 'absolute', bottom: '20px', left: '50%', transform: 'translateX(-50%)', padding: '10px', borderRadius: '5px', textDecoration: 'none', textAlign: 'center' }}>
+      Enable Device Motion
+    </button>
+  )}
+  <a href=" https://slopes.events-liontree.com/i/preview/rsvp" target="_blank" rel="noopener noreferrer" style={{ position: 'absolute', bottom: '80px', left: '50%', transform: 'translateX(-50%)', padding: '10px', borderRadius: '5px', textDecoration: 'none', textAlign: 'center', display: 'inline-block', backgroundColor: 'white', color: 'black' }}>
+    RSVP
+  </a>
+  <a  href="https://vimeo.com/alexhoxie/review/920675397/6133175eb0" target="_blank" rel="noopener noreferrer" style={{ position: 'absolute', bottom: '125px', left: '50%', transform: 'translateX(-50%)', padding: '10px', borderRadius: '5px', textDecoration: 'none', textAlign: 'center', display: 'inline-block', backgroundColor: 'white', color: 'black' }}>
+    2024 Recap
+  </a>
+</div>);
 }
 
 export default App;
