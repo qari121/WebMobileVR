@@ -167,7 +167,7 @@ function App() {
         const textMaterial1 = new THREE.MeshBasicMaterial({ color: 0xffffff });
         textMesh1 = new THREE.Mesh(textGeometry1, textMaterial1);
 
-        textMesh1.position.set(2, 2, 3);
+        textMesh1.position.set(2, 2, 0);
         textMesh1.rotation.y = -Math.PI / 4;
 
         textMesh.position.set(-7, 3, 3);
