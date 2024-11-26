@@ -10,6 +10,7 @@ function App() {
   const [hasGyroPermission, setHasGyroPermission] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [showButtons, setShowButtons] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const controlsRef = useRef(null);
   const cameraRef = useRef(null);
   const [cameraYPosition, setCameraYPosition] = useState(0);
@@ -61,6 +62,13 @@ function App() {
     video.muted = true;
     video.setAttribute('playsinline', 'true');
     video.setAttribute('webkit-playsinline', 'true');
+
+    video.addEventListener('loadeddata', () => {
+      setIsLoading(false);
+      video.play().catch((error) => {
+        console.error('Error playing video:', error);
+      });
+    });
 
     const playVideo = () => {
       video.play().catch((error) => {
@@ -162,7 +170,6 @@ function App() {
           curveSegments: 12,
         });
 
-
         const textMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
         textMesh = new THREE.Mesh(textGeometry, textMaterial);
 
@@ -245,6 +252,19 @@ function App() {
 
   return (
     <div ref={mountRef} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', overflow: 'hidden' }}>
+      {isLoading && (
+        <div style={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          fontSize: '24px',
+          color: 'white',
+          textAlign: 'center'
+        }}>
+          Loading...
+        </div>
+      )}
       {!hasGyroPermission && (
         <button onClick={requestGyroPermission} style={{ 
           position: 'absolute', 
@@ -259,7 +279,7 @@ function App() {
           color: 'black', 
           textDecoration: 'none', 
           textAlign: 'center', 
-         // boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)', // Same shadow effect
+          boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)', // Same shadow effect
           transition: 'background-color 0.3s, transform 0.3s', 
           fontFamily: 'Inter, sans-serif', 
           fontWeight: 600 
