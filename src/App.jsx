@@ -12,20 +12,18 @@ function App() {
   const controlsRef = useRef(null);
   const cameraRef = useRef(null);
   const [cameraYPosition, setCameraYPosition] = useState(0);
-  const [lookAtX, setLookAtX] = useState(0); // State to hold lookAt.x value
+  const [lookAtX, setLookAtX] = useState(0);
 
-  // Check if the user is on a mobile device
   useEffect(() => {
     const userAgent = navigator.userAgent || navigator.vendor || window.opera;
     const mobileCheck = /iPhone|iPad|iPod|Android/i.test(userAgent);
     setIsMobile(mobileCheck);
   }, []);
 
-  // Initialize camera only once
   useEffect(() => {
     cameraRef.current = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    cameraRef.current.position.set(0, 0, 0); // Position the camera at the center
-  }, []); // Empty dependency array ensures this runs only once
+    cameraRef.current.position.set(0, 0, 0);
+  }, []);
 
   const initGyroControls = () => {
     if (cameraRef.current) {
@@ -36,7 +34,7 @@ function App() {
   };
 
   const requestGyroPermission = async () => {
-    if (typeof DeviceOrientationEvent !== 'undefined' && 
+    if (typeof DeviceOrientationEvent !== 'undefined' &&
         typeof DeviceOrientationEvent.requestPermission === 'function') {
       try {
         const permission = await DeviceOrientationEvent.requestPermission();
@@ -55,15 +53,13 @@ function App() {
     const scene = new THREE.Scene();
     const camera = cameraRef.current;
 
-    // Create video element and texture
     const video = document.createElement('video');
     video.src = videoSource;
     video.loop = true;
-    video.muted = true; // Required for autoplay to work on iOS
-    video.setAttribute('playsinline', 'true'); // Ensure the video plays inline on iOS
-    video.setAttribute('webkit-playsinline', 'true'); // For older iOS versions
+    video.muted = true;
+    video.setAttribute('playsinline', 'true');
+    video.setAttribute('webkit-playsinline', 'true');
 
-    // Play video after user interaction (iOS compatibility)
     const playVideo = () => {
       video.play().catch((error) => {
         console.error('Error playing video:', error);
@@ -71,37 +67,31 @@ function App() {
     };
 
     if (isMobile) {
-      // Add a listener for user interaction
       window.addEventListener('touchstart', playVideo, { once: true });
       window.addEventListener('click', playVideo, { once: true });
     } else {
-      // For non-mobile devices, autoplay works without interaction
       video.play();
     }
 
-    // Create video texture
     const videoTexture = new THREE.VideoTexture(video);
     videoTexture.minFilter = THREE.LinearFilter;
     videoTexture.magFilter = THREE.LinearFilter;
     videoTexture.format = THREE.RGBFormat;
 
-    // Create a sky sphere using a sphere geometry
-    const skyboxGeometry = new THREE.SphereGeometry(100, 32, 32); // Large sphere to encompass the scene
+    const skyboxGeometry = new THREE.SphereGeometry(100, 32, 32);
     const skyboxMaterial = new THREE.MeshBasicMaterial({
       map: videoTexture,
-      side: THREE.BackSide // Render the inside of the sphere
+      side: THREE.BackSide
     });
     const skybox = new THREE.Mesh(skyboxGeometry, skyboxMaterial);
-    scene.add(skybox); // Add the skybox to the scene
+    scene.add(skybox);
 
-    // Set the camera's position
-    camera.position.set(0, 0, 8); // Position the camera at the center of the skybox
+    camera.position.set(0, 0, 8);
 
     const renderer = new THREE.WebGLRenderer();
     renderer.setSize(window.innerWidth, window.innerHeight);
     mountRef.current.appendChild(renderer.domElement);
 
-    // Handle window resize
     const handleResize = () => {
       const newAspectRatio = window.innerWidth / window.innerHeight;
       camera.aspect = newAspectRatio;
@@ -111,32 +101,29 @@ function App() {
 
     window.addEventListener('resize', handleResize);
 
-    // Diamond creation and animation logic
     const diamondGroup = new THREE.Group();
     scene.add(diamondGroup);
 
-    const numRings = 16;        // Vertical rings
-    const diamondsPerRing = 24; // Diamonds around each ring
-    const numLayers = 8;        // Radial layers (depth of sphere)
-    const maxRadius = 8;        // Sphere radius
+    const numRings = 16;
+    const diamondsPerRing = 24;
+    const numLayers = 8;
+    const maxRadius = 8;
     const diamonds = [];
     const initialPositions = [];
 
-    // Create spherical formation of diamonds
     for (let layer = 0; layer < numLayers; layer++) {
       const layerRadius = (layer + 1) * (maxRadius / numLayers);
-      
+
       for (let ring = 0; ring < numRings; ring++) {
-        const phi = Math.PI * (ring / (numRings - 1));  // Vertical angle
-        
+        const phi = Math.PI * (ring / (numRings - 1));
+
         for (let i = 0; i < diamondsPerRing; i++) {
-          const theta = (i / diamondsPerRing) * Math.PI * 2;  // Horizontal angle
-          
-          const geometry = new THREE.OctahedronGeometry(0.3);  // Smaller diamonds
-          const diamondMaterial = new THREE.MeshBasicMaterial({ map: videoTexture }); // Use video texture for diamonds
+          const theta = (i / diamondsPerRing) * Math.PI * 2;
+
+          const geometry = new THREE.OctahedronGeometry(0.3);
+          const diamondMaterial = new THREE.MeshBasicMaterial({ map: videoTexture });
           const diamond = new THREE.Mesh(geometry, diamondMaterial);
 
-          // Calculate spherical coordinates
           const x = layerRadius * Math.sin(phi) * Math.cos(theta);
           const y = layerRadius * Math.sin(phi) * Math.sin(theta);
           const z = layerRadius * Math.cos(phi);
@@ -144,7 +131,6 @@ function App() {
           diamond.position.set(x, y, z);
           initialPositions.push({ x, y, z });
 
-          // Random initial rotation
           diamond.rotation.x = Math.random() * Math.PI;
           diamond.rotation.y = Math.random() * Math.PI;
           diamond.rotation.z = Math.random() * Math.PI;
@@ -155,170 +141,108 @@ function App() {
       }
     }
 
-    // Animation loop with layer-by-layer convergence
+    let textMesh;
+    let textMesh1;
+    const fontLoader = new FontLoader();
+    fontLoader.load(
+      'https://threejs.org/examples/fonts/helvetiker_regular.typeface.json',
+      (font) => {
+        const textGeometry = new TextGeometry('Shifting your perspective', {
+          font,
+          size: 0.5,
+          height: 0.2,
+          curveSegments: 12,
+        });
+        const textGeometry1 = new TextGeometry('reveals hidden messages', {
+          font,
+          size: 0.5,
+          height: 0.2,
+          curveSegments: 12,
+        });
+
+
+        const textMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
+        textMesh = new THREE.Mesh(textGeometry, textMaterial);
+
+        const textMaterial1 = new THREE.MeshBasicMaterial({ color: 0xffffff });
+        textMesh1 = new THREE.Mesh(textGeometry1, textMaterial1);
+
+        textMesh1.position.set(2, 2, 3);
+        textMesh1.rotation.y = -Math.PI / 4;
+
+        textMesh.position.set(-7, 3, 3);
+        textMesh.rotation.y = Math.PI / 4;
+        scene.add(textMesh1);
+        scene.add(textMesh);
+      }
+    );
+
     let time = 0;
 
     function animate() {
       requestAnimationFrame(animate);
-      
-      // Check if the camera is initialized before rendering
+
       if (cameraRef.current) {
         if (controlsRef.current) {
           controlsRef.current.update();
 
-          // Access alpha, beta, and gamma values
           const { alpha, beta, gamma } = controlsRef.current.deviceOrientation;
 
-          // Update camera position based on device orientation
-          cameraRef.current.lookAt.x = -gamma / 90; // Update x position based on gamma
-          cameraRef.current.lookAt.y = beta / 90;   // Update y position based on beta
-          cameraRef.current.lookAt.z = 8; // Update z position
-        //  cameraRef.current.lookAt(0, 0, 0);
+          cameraRef.current.lookAt.x = -gamma / 90;
+          cameraRef.current.lookAt.y = beta / 90;
+          cameraRef.current.lookAt.z = 8;
 
-          // Update the state with the camera's y position for the debug log
-          setCameraYPosition(cameraRef.current.position.y); // Update state with y position
-          setLookAtX(cameraRef.current.lookAt.x); // Update state with lookAt.x
+          setCameraYPosition(cameraRef.current.position.y);
+          setLookAtX(cameraRef.current.lookAt.x);
         }
 
-        // Convergence logic for diamonds
+        if (textMesh) {
+          textMesh.position.y = 3 + Math.sin(time * 2) * 0.5;
+          textMesh.position.z = 3 + Math.cos(time * 2) * 0.5;
+        }
+
         diamonds.forEach((diamond, index) => {
           const initialPos = initialPositions[index];
           const layerIndex = Math.floor(index / (diamondsPerRing * numRings));
-          
-          // Adjust convergence logic to layer by layer
-          const layerDelay = layerIndex * 0.5; // Delay for each layer
+
+          const layerDelay = layerIndex * 0.5;
           const convergence = Math.max(0, Math.sin(time * 1.5 - layerDelay) * 0.9);
           const convergenceScale = 1 - convergence;
 
-          // Calculate rotated positions
           const rotatedX = initialPos.x * Math.cos(time * 0.5) - initialPos.y * Math.sin(time * 0.5);
           const rotatedY = initialPos.x * Math.sin(time * 0.5) + initialPos.y * Math.cos(time * 0.5);
           const rotatedZ = initialPos.z;
 
-          // Update diamond positions based on convergence
           diamond.position.x = rotatedX * convergenceScale;
           diamond.position.y = rotatedY * convergenceScale;
           diamond.position.z = rotatedZ * convergenceScale;
 
-          // Scale adjustment
-          const scale = 0.9 + convergence * 0.2;  // Reduced scale variation
+          const scale = 0.9 + convergence * 0.2;
           diamond.scale.set(scale, scale, scale);
         });
 
-        // Render the scene
         renderer.render(scene, cameraRef.current);
       }
-      time += 0.01; // Increment time for animation
+      time += 0.01;
     }
     animate();
-    
-    
-    // Cleanup
+
     return () => {
       if (controlsRef.current) {
         controlsRef.current.dispose();
       }
       mountRef.current.removeChild(renderer.domElement);
-      window.removeEventListener('resize', handleResize); // Cleanup resize listener
+      window.removeEventListener('resize', handleResize);
     };
   }, []);
 
   return (
-    <div 
-      ref={mountRef} 
-      style={{
-        position: 'absolute', // Ensure it covers the entire viewport
-        top: 0,              // Align to the top
-        left: 0,             // Align to the left
-        width: '100%',       // Full width
-        height: '100%',      // Full height
-        overflow: 'hidden'   // Prevent overflow if necessary
-      }}
-    >
+    <div ref={mountRef} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', overflow: 'hidden' }}>
       {!hasGyroPermission && (
-        <button 
-          onClick={requestGyroPermission}
-          style={{
-            position: 'absolute',
-            bottom: '20px',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            padding: '10px 20px',
-            backgroundColor: 'rgba(255, 255, 255, 0.8)',
-            border: 'none',
-            borderRadius: '5px',
-            cursor: 'pointer',
-            zIndex: 1000
-          }}
-        >
+        <button onClick={requestGyroPermission} style={{ position: 'absolute', bottom: '20px', left: '50%', transform: 'translateX(-50%)' }}>
           Enable Device Motion
         </button>
       )}
-      {!isMobile && (
-        <div style={{
-          position: 'absolute',
-          top: '20px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          padding: '10px 20px',
-          backgroundColor: 'rgba(255, 255, 255, 0.8)',
-          border: 'none',
-          borderRadius: '5px',
-          zIndex: 1000,
-          fontSize: '18px',
-          textAlign: 'center'
-        }}>
-          For the best experience, please use a mobile device.
-        </div>
-      )}
-      <div style={{
-        position: 'absolute',
-        bottom: '20px',
-        left: '20px',
-        padding: '10px',
-        backgroundColor: 'rgba(255, 255, 255, 0.8)',
-        border: '1px solid #000',
-        borderRadius: '5px',
-        zIndex: 1000,
-        fontSize: '16px'
-      }}>
-        Camera Y Position: {typeof cameraYPosition === 'number' ? cameraYPosition.toFixed(2) : 'N/A'}<br />
-        LookAt X Position: {typeof lookAtX === 'number' ? lookAtX.toFixed(2) : 'N/A'} {/* Display lookAt.x value */}
-      </div>
-      <div style={{
-        position: 'absolute',
-        bottom: '100px', // Adjust as needed
-        left: '50%',
-        transform: 'translateX(-50%)',
-        display: 'flex',
-        gap: '20px', // Space between buttons
-        zIndex: 1000
-      }}>
-        <a href="https://slopes.events-liontree.com/i/preview/rsvp" target="_blank" rel="noopener noreferrer">
-          <button style={{
-            padding: '10px 20px',
-            backgroundColor: 'rgba(255, 255, 255, 0.8)',
-            border: 'none',
-            borderRadius: '5px',
-            cursor: 'pointer',
-            fontSize: '16px'
-          }}>
-            RSVP
-          </button>
-        </a>
-        <a href="https://vimeo.com/alexhoxie/review/920675397/6133175eb0" target="_blank" rel="noopener noreferrer">
-          <button style={{
-            padding: '10px 20px',
-            backgroundColor: 'rgba(255, 255, 255, 0.8)',
-            border: 'none',
-            borderRadius: '5px',
-            cursor: 'pointer',
-            fontSize: '16px'
-          }}>
-            2024 Recap
-          </button>
-        </a>
-      </div>
     </div>
   );
 }
