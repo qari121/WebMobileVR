@@ -267,7 +267,7 @@ function App() {
         </div>
       )}
       {!hasGyroPermission && (
-        <button onClick={requestGyroPermission} style={{ 
+        <a onClick={requestGyroPermission} style={{ 
           position: 'absolute', 
           bottom: '20px', 
           left: '50%', 
@@ -289,7 +289,7 @@ function App() {
           boxShadow: 'none' 
         }}>
           Enable Rotation
-        </button>
+        </a>
       )}
       
       {/* RSVP Button */}
