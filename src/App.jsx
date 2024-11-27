@@ -188,6 +188,7 @@ function App() {
     );
 
     let time = 0;
+    const slowDownFactor = 0.2;
 
     function animate() {
       requestAnimationFrame(animate);
@@ -238,7 +239,8 @@ function App() {
 
         renderer.render(scene, cameraRef.current);
       }
-      time += 0.01;
+      
+      time += 0.01 * slowDownFactor;
     }
     animate();
 
@@ -285,7 +287,7 @@ function App() {
           fontSize: '16px', 
           transition: 'background-color 0.3s, transform 0.3s', 
           fontFamily: 'Source Sans Pro, sans-serif', 
-          fontWeight: 400, 
+          fontWeight: 600, 
           boxShadow: 'none' 
         }}>
           Enable Rotation
