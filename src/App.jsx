@@ -269,32 +269,58 @@ function App() {
         </div>
       )}
       {!hasGyroPermission && (
-        <a 
-          onClick={requestGyroPermission} 
+        <div 
           style={{ 
             position: 'absolute', 
             bottom: '20px', 
             left: '50%', 
             transform: 'translateX(-50%)', 
-            display: 'inline-block', 
-            width: '100px', // Adjust width as needed
-            height: '100px', 
-            padding: '0', 
+            width: '120px', // Outer circle width
+            height: '120px', // Outer circle height
             borderRadius: '50%', 
-            backgroundColor: '#f38f2e', 
-            color: 'white', 
-            textDecoration: 'none', 
-            textAlign: 'center', 
-            lineHeight: 'normal', // Set line height to normal
-            fontSize: '17px', 
-            transition: 'background-color 0.3s, transform 0.3s', 
-            fontFamily: 'Source Sans Pro, sans-serif', 
-            fontWeight: 600, 
-            boxShadow: 'none' 
+            backgroundColor: '#f38f2e', // Outer circle color
+            display: 'flex', 
+            justifyContent: 'center', 
+            alignItems: 'center' 
           }}>
-          <span style={{ display: 'block', marginTop: '27px' }}>Enable</span>
-          <span style={{ display: 'block', marginTop: '2px' }}>Rotation</span>
-        </a>
+          <a 
+            onClick={requestGyroPermission} 
+            style={{ 
+              position: 'relative', // Set position to relative for the inner circle
+              width: '70px', // Inner circle width
+              height: '70px', // Inner circle height
+              borderRadius: '50%', 
+              backgroundColor: 'transparent', // Make inner circle transparent
+              color: 'white', // Text color
+              textDecoration: 'none', 
+              textAlign: 'center', 
+              lineHeight: 'normal', 
+              fontSize: '17px', 
+              transition: 'background-color 0.3s, transform 0.3s', 
+              fontFamily: 'Source Sans Pro, sans-serif', 
+              fontWeight: 600, 
+              display: 'flex', 
+              flexDirection: 'column', 
+              justifyContent: 'center', 
+              alignItems: 'center' 
+            }}>
+            <span style={{ marginBottom: '2px' }}>Enable</span>
+            <span>Rotation</span>
+          </a>
+          <div 
+            style={{ 
+              position: 'absolute', 
+              width: '120%', // Match the width of the outer circle
+              height: '120%', // Match the height of the outer circle
+              borderRadius: '50%', 
+              border: '6px solid orange', // Border color
+              top: '50%', // Move down
+              left: '50%', // Move right
+              transform: 'translate(-50%, -50%)', // Adjust to center the border
+              zIndex: -1 // Send the border behind the inner circle
+            }} 
+          />
+        </div>
       )}
       
       {/* RSVP Button */}
