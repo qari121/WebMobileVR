@@ -304,7 +304,7 @@ function App() {
           padding: '10px 0', // Same padding
           borderRadius: '20px', // Same border radius
           backgroundColor: '#00A9E4', 
-          color: 'black', 
+          color: 'white', 
           textDecoration: 'none', 
           textAlign: 'center', 
           boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)', // Same shadow effect
@@ -328,7 +328,7 @@ function App() {
           padding: '10px 0', // Same padding
           borderRadius: '20px', // Same border radius
           backgroundColor: '#f38f2e', 
-          color: 'black', 
+          color: 'white', 
           textDecoration: 'none', 
           textAlign: 'center', 
           boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)', // Same shadow effect
