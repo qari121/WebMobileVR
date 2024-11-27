@@ -1,0 +1,7 @@
+@font-face {
+    font-family: 'Source Sans 3';
+    src: url('./fonts/SourceSans3-ExtraLight.woff2') format('woff2'),
+         url('./fonts/SourceSans3-ExtraLight.woff') format('woff');
+    font-weight: 200; /* ExtraLight weight */
+    font-style: normal;
+}

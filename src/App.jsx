@@ -4,6 +4,7 @@ import { DeviceOrientationControls } from 'three/examples/jsm/controls/DeviceOri
 import videoSource from './assets/s25.mp4';
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js';
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js';
+import './fonts/fonts.css';
 
 function App() {
   const mountRef = useRef(null);
@@ -272,20 +273,20 @@ function App() {
           left: '50%', 
           transform: 'translateX(-50%)', 
           display: 'inline-block', 
-          width: '100px', // Width of the button
-          height: '100px', // Set height equal to width for a circular shape
-          padding: '0', // Remove padding to maintain circular shape
-          borderRadius: '50%', // Set border radius to 50% for a circular button
-          backgroundColor: '#f38f2e', // Set a background color for visibility
-          color: 'white', // Change text color for better contrast
+          width: '100px', 
+          height: '100px', 
+          padding: '0', 
+          borderRadius: '50%', 
+          backgroundColor: '#f38f2e', 
+          color: 'white', 
           textDecoration: 'none', 
           textAlign: 'center', 
-          lineHeight: '100px', // Center text vertically
-          fontSize: '16px', // Adjust font size for better visibility
+          lineHeight: '100px', 
+          fontSize: '16px', 
           transition: 'background-color 0.3s, transform 0.3s', 
-          fontFamily: 'Source Sans 3, sans-serif', // Use Source Sans 3 font
-          fontWeight: 400, // Regular weight
-          boxShadow: 'none' // Remove shadow
+          fontFamily: 'Source Sans Pro, sans-serif', 
+          fontWeight: 400, 
+          boxShadow: 'none' 
         }}>
           Enable Rotation
         </a>
@@ -302,16 +303,16 @@ function App() {
           width: '200px', // Same width as other buttons
           padding: '10px 0', // Same padding
           borderRadius: '20px', // Same border radius
-          backgroundColor: 'white', 
+          backgroundColor: '#00A9E4', 
           color: 'black', 
           textDecoration: 'none', 
           textAlign: 'center', 
           boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)', // Same shadow effect
           transition: 'background-color 0.3s, transform 0.3s', 
-          fontFamily: 'Source Sans 3, sans-serif', // Use Source Sans 3 font
+          fontFamily: 'Source Sans Pro, sans-serif', // Use Source Sans Pro font
           fontWeight: 400 // Regular weight
         }}>
-          RSVP
+          Confirm Details
         </a>
       )}
 
@@ -326,13 +327,13 @@ function App() {
           width: '200px', // Same width as other buttons
           padding: '10px 0', // Same padding
           borderRadius: '20px', // Same border radius
-          backgroundColor: 'white', 
+          backgroundColor: '#f38f2e', 
           color: 'black', 
           textDecoration: 'none', 
           textAlign: 'center', 
           boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)', // Same shadow effect
           transition: 'background-color 0.3s, transform 0.3s', 
-          fontFamily: 'Source Sans 3, sans-serif', // Use Source Sans 3 font
+          fontFamily: 'Source Sans Pro, sans-serif', // Use Source Sans Pro font
           fontWeight: 400 // Regular weight
         }}>
           2024 Recap
