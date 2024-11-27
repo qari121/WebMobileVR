@@ -258,8 +258,8 @@ function App() {
       {isLoading && (
         <div style={{
           position: 'absolute',
-          top: '50%',
-          left: '50%',
+          top: '40%',
+          left: '40%',
           transform: 'translate(-50%, -50%)',
           fontSize: '24px',
           color: 'white',
@@ -275,8 +275,8 @@ function App() {
             bottom: '20px', 
             left: '50%', 
             transform: 'translateX(-50%)', 
-            width: '90px', // Outer circle width
-            height: '90px', // Outer circle height
+            width: '80px', // Outer circle width
+            height: '80px', // Outer circle height
             borderRadius: '50%', 
             backgroundColor: '#f38f2e', // Outer circle color
             display: 'flex', 
@@ -298,7 +298,7 @@ function App() {
               fontSize: '17px', 
               transition: 'background-color 0.3s, transform 0.3s', 
               fontFamily: 'Source Sans Pro, sans-serif', 
-              fontWeight: 600, 
+              fontWeight: 500, 
               display: 'flex', 
               flexDirection: 'column', 
               justifyContent: 'center', 
@@ -310,10 +310,10 @@ function App() {
           <div 
             style={{ 
               position: 'absolute', 
-              width: '120%', // Match the width of the outer circle
-              height: '120%', // Match the height of the outer circle
+              width: '110%', // Match the width of the outer circle
+              height: '110%', // Match the height of the outer circle
               borderRadius: '50%', 
-              border: '6px solid orange', // Border color
+              border: '5px solid orange', // Border color
               top: '50%', // Move down
               left: '50%', // Move right
               transform: 'translate(-50%, -50%)', // Adjust to center the border
