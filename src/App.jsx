@@ -275,8 +275,8 @@ function App() {
             bottom: '20px', 
             left: '50%', 
             transform: 'translateX(-50%)', 
-            width: '120px', // Outer circle width
-            height: '120px', // Outer circle height
+            width: '90px', // Outer circle width
+            height: '90px', // Outer circle height
             borderRadius: '50%', 
             backgroundColor: '#f38f2e', // Outer circle color
             display: 'flex', 
@@ -287,8 +287,8 @@ function App() {
             onClick={requestGyroPermission} 
             style={{ 
               position: 'relative', // Set position to relative for the inner circle
-              width: '70px', // Inner circle width
-              height: '70px', // Inner circle height
+              width: '50px', // Inner circle width
+              height: '50px', // Inner circle height
               borderRadius: '50%', 
               backgroundColor: 'transparent', // Make inner circle transparent
               color: 'white', // Text color
