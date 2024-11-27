@@ -269,58 +269,64 @@ function App() {
         </div>
       )}
       {!hasGyroPermission && (
-        <div 
-          style={{ 
-            position: 'absolute', 
-            bottom: '200px', 
-            left: '50%', 
-            transform: 'translateX(-50%)', 
-            width: '120px', // Outer circle width
-            height: '120px', // Outer circle height
-            borderRadius: '50%', 
-            backgroundColor: '#f38f2e', // Outer circle color
-            display: 'flex', 
-            justifyContent: 'center', 
-            alignItems: 'center',
-            opacity: 0.8
-          }}>
-          <a 
-            onClick={requestGyroPermission} 
-            style={{ 
-              position: 'relative', // Set position to relative for the inner circle
-              width: '50px', // Inner circle width
-              height: '50px', // Inner circle height
-              borderRadius: '50%', 
-              backgroundColor: 'transparent', // Make inner circle transparent
-              color: 'white', // Text color
-              textDecoration: 'none', 
-              textAlign: 'center', 
-              lineHeight: 'normal', 
-              fontSize: '17px', 
-              transition: 'background-color 0.3s, transform 0.3s', 
-              fontFamily: 'Source Sans Pro, sans-serif', 
-              fontWeight: 500, 
-              display: 'flex', 
-              flexDirection: 'column', 
-              justifyContent: 'center', 
-              alignItems: 'center' 
-            }}>
-            <span style={{ marginBottom: '2px' }}>Enable</span>
-            <span>360° Rotation</span>
-          </a>
+        <div style={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          opacity: 0.8
+        }}>
           <div 
             style={{ 
-              position: 'absolute', 
-              width: '130%', // Match the width of the outer circle
-              height: '130%', // Match the height of the outer circle
-              borderRadius: '50%', 
-              border: '2px solid orange', // Border color
-              top: '50%', // Move down
-              left: '50%', // Move right
-              transform: 'translate(-50%, -50%)', // Adjust to center the border
-              zIndex: -1 // Send the border behind the inner circle
-            }} 
-          />
+              width: '120px',
+              height: '120px',
+              borderRadius: '50%',
+              backgroundColor: '#f38f2e',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center'
+            }}>
+            <a 
+              onClick={requestGyroPermission} 
+              style={{ 
+                position: 'relative',
+                width: '50px',
+                height: '50px',
+                borderRadius: '50%',
+                backgroundColor: 'transparent',
+                color: 'white',
+                textDecoration: 'none',
+                textAlign: 'center',
+                lineHeight: 'normal',
+                fontSize: '17px',
+                transition: 'background-color 0.3s, transform 0.3s',
+                fontFamily: 'Source Sans Pro, sans-serif',
+                fontWeight: 500,
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}>
+              <span style={{ marginBottom: '2px' }}>Enable</span>
+              <span>360° Rotation</span>
+            </a>
+            <div 
+              style={{ 
+                position: 'absolute',
+                width: '130%',
+                height: '130%',
+                borderRadius: '50%',
+                border: '2px solid orange',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                zIndex: -1
+              }} 
+            />
+          </div>
         </div>
       )}
       
