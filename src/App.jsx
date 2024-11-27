@@ -272,16 +272,17 @@ function App() {
         <div 
           style={{ 
             position: 'absolute', 
-            bottom: '20px', 
+            bottom: '350px', 
             left: '50%', 
             transform: 'translateX(-50%)', 
-            width: '80px', // Outer circle width
-            height: '80px', // Outer circle height
+            width: '120px', // Outer circle width
+            height: '120px', // Outer circle height
             borderRadius: '50%', 
             backgroundColor: '#f38f2e', // Outer circle color
             display: 'flex', 
             justifyContent: 'center', 
-            alignItems: 'center' 
+            alignItems: 'center',
+            opacity: 0.8
           }}>
           <a 
             onClick={requestGyroPermission} 
@@ -305,15 +306,15 @@ function App() {
               alignItems: 'center' 
             }}>
             <span style={{ marginBottom: '2px' }}>Enable</span>
-            <span>Rotation</span>
+            <span>360° Rotation</span>
           </a>
           <div 
             style={{ 
               position: 'absolute', 
-              width: '110%', // Match the width of the outer circle
-              height: '110%', // Match the height of the outer circle
+              width: '130%', // Match the width of the outer circle
+              height: '130%', // Match the height of the outer circle
               borderRadius: '50%', 
-              border: '5px solid orange', // Border color
+              border: '2px solid orange', // Border color
               top: '50%', // Move down
               left: '50%', // Move right
               transform: 'translate(-50%, -50%)', // Adjust to center the border
