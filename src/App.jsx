@@ -63,6 +63,7 @@ function App() {
     video.muted = true;
     video.setAttribute('playsinline', 'true');
     video.setAttribute('webkit-playsinline', 'true');
+    video.setAttribute('controls', '');
 
     video.addEventListener('loadeddata', () => {
       setIsLoading(false);
