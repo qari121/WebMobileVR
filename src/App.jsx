@@ -61,9 +61,9 @@ function App() {
     video.src = videoSource;
     video.loop = true;
     video.muted = true;
+    video.autoplay=true;
     video.setAttribute('playsinline', 'true');
     video.setAttribute('webkit-playsinline', 'true');
-    video.setAttribute('controls', '');
 
     video.addEventListener('loadeddata', () => {
       setIsLoading(false);
