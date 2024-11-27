@@ -266,26 +266,29 @@ function App() {
         </div>
       )}
       {!hasGyroPermission && (
-        <button onClick={requestGyroPermission} style={{ 
+        <a onClick={requestGyroPermission} style={{ 
           position: 'absolute', 
           bottom: '20px', 
           left: '50%', 
           transform: 'translateX(-50%)', 
           display: 'inline-block', 
-          width: '200px', // Same width as other buttons
-          padding: '10px 0', // Same padding
-          borderRadius: '20px', // Same border radius
-          backgroundColor: 'white', 
-          color: 'black', 
+          width: '100px', // Width of the button
+          height: '100px', // Set height equal to width for a circular shape
+          padding: '0', // Remove padding to maintain circular shape
+          borderRadius: '50%', // Set border radius to 50% for a circular button
+          backgroundColor: '#f38f2e', // Set a background color for visibility
+          color: 'white', // Change text color for better contrast
           textDecoration: 'none', 
           textAlign: 'center', 
-          boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)', // Same shadow effect
+          lineHeight: '100px', // Center text vertically
+          fontSize: '16px', // Adjust font size for better visibility
           transition: 'background-color 0.3s, transform 0.3s', 
-          fontFamily: 'Inter, sans-serif', 
-          fontWeight: 600 
+          fontFamily: 'Source Sans 3, sans-serif', // Use Source Sans 3 font
+          fontWeight: 400, // Regular weight
+          boxShadow: 'none' // Remove shadow
         }}>
-          Enable Device Motion
-        </button>
+          Enable Rotation
+        </a>
       )}
       
       {/* RSVP Button */}
@@ -305,8 +308,8 @@ function App() {
           textAlign: 'center', 
           boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)', // Same shadow effect
           transition: 'background-color 0.3s, transform 0.3s', 
-          fontFamily: 'Inter, sans-serif', 
-          fontWeight: 600 
+          fontFamily: 'Source Sans 3, sans-serif', // Use Source Sans 3 font
+          fontWeight: 400 // Regular weight
         }}>
           RSVP
         </a>
@@ -329,8 +332,8 @@ function App() {
           textAlign: 'center', 
           boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)', // Same shadow effect
           transition: 'background-color 0.3s, transform 0.3s', 
-          fontFamily: 'Inter, sans-serif', 
-          fontWeight: 600 
+          fontFamily: 'Source Sans 3, sans-serif', // Use Source Sans 3 font
+          fontWeight: 400 // Regular weight
         }}>
           2024 Recap
         </a>
