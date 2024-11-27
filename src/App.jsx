@@ -269,28 +269,31 @@ function App() {
         </div>
       )}
       {!hasGyroPermission && (
-        <a onClick={requestGyroPermission} style={{ 
-          position: 'absolute', 
-          bottom: '20px', 
-          left: '50%', 
-          transform: 'translateX(-50%)', 
-          display: 'inline-block', 
-          width: '100px', 
-          height: '100px', 
-          padding: '0', 
-          borderRadius: '50%', 
-          backgroundColor: '#f38f2e', 
-          color: 'white', 
-          textDecoration: 'none', 
-          textAlign: 'center', 
-          lineHeight: '100px', 
-          fontSize: '16px', 
-          transition: 'background-color 0.3s, transform 0.3s', 
-          fontFamily: 'Source Sans Pro, sans-serif', 
-          fontWeight: 600, 
-          boxShadow: 'none' 
-        }}>
-          Enable Rotation
+        <a 
+          onClick={requestGyroPermission} 
+          style={{ 
+            position: 'absolute', 
+            bottom: '20px', 
+            left: '50%', 
+            transform: 'translateX(-50%)', 
+            display: 'inline-block', 
+            width: '100px', // Adjust width as needed
+            height: '100px', 
+            padding: '0', 
+            borderRadius: '50%', 
+            backgroundColor: '#f38f2e', 
+            color: 'white', 
+            textDecoration: 'none', 
+            textAlign: 'center', 
+            lineHeight: 'normal', // Set line height to normal
+            fontSize: '17px', 
+            transition: 'background-color 0.3s, transform 0.3s', 
+            fontFamily: 'Source Sans Pro, sans-serif', 
+            fontWeight: 600, 
+            boxShadow: 'none' 
+          }}>
+          <span style={{ display: 'block', marginTop: '27px' }}>Enable</span>
+          <span style={{ display: 'block', marginTop: '2px' }}>Rotation</span>
         </a>
       )}
       
@@ -309,7 +312,7 @@ function App() {
           color: 'white', 
           textDecoration: 'none', 
           textAlign: 'center', 
-          boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)', // Same shadow effect
+          boxShadow: 'none', // Same shadow effect
           transition: 'background-color 0.3s, transform 0.3s', 
           fontFamily: 'Source Sans Pro, sans-serif', // Use Source Sans Pro font
           fontWeight: 400 // Regular weight
@@ -333,7 +336,7 @@ function App() {
           color: 'white', 
           textDecoration: 'none', 
           textAlign: 'center', 
-          boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)', // Same shadow effect
+          boxShadow: 'none', // Same shadow effect
           transition: 'background-color 0.3s, transform 0.3s', 
           fontFamily: 'Source Sans Pro, sans-serif', // Use Source Sans Pro font
           fontWeight: 400 // Regular weight
