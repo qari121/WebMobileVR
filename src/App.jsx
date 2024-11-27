@@ -272,7 +272,7 @@ function App() {
         <div 
           style={{ 
             position: 'absolute', 
-            bottom: '350px', 
+            bottom: '200px', 
             left: '50%', 
             transform: 'translateX(-50%)', 
             width: '120px', // Outer circle width
