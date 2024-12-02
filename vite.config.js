@@ -13,8 +13,5 @@ export default defineConfig({
       }
     }
   },
-  plugins: [react()],
-  server: {
-    open: '/index.html'
-  }
+  plugins: [react()]
 })
