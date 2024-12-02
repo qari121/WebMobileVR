@@ -3,11 +3,62 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Kaliedoscope</title>
+    <title>Slopes 2025</title>
+    <link rel="icon" type="image/png" href="./src/assets/Symbol.png">
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+      /* Loading screen styles */
+      .loading-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #000;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+      }
+
+      .loading-screen img {
+        width: 200px; /* Adjust size as needed */
+        height: auto;
+        margin-bottom: 20px;
+      }
+
+      .loading-screen h1 {
+        color: white;
+        font-family: 'Source Sans Pro', sans-serif;
+        font-size: 2.5em;
+        margin: 0;
+      }
+
+      /* Hide loading screen when content is ready */
+      .loading-screen.hidden {
+        display: none;
+      }
+    </style>
   </head>
   <body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+      <img src="./src/assets/Symbol.png" alt="Slopes 2025 Logo">
+      <h1>SLOPES 2025</h1>
+    </div>
+
+    <!-- Your existing content -->
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+
+    <script>
+      // Hide loading screen after content loads
+      window.addEventListener('load', () => {
+        setTimeout(() => {
+          document.getElementById('loadingScreen').classList.add('hidden');
+        }, 2000); // Show for 2 seconds
+      });
+    </script>
   </body>
 </html>
