@@ -1,10 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { DeviceOrientationControls } from 'three/examples/jsm/controls/DeviceOrientationControls.js';
-import videoSource from './assets/s25.mp4';
+import videoSource from './assets/s25invitevideo.mp4';
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js';
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js';
-import './fonts/fonts.css';
 
 function App() {
   const mountRef = useRef(null);
@@ -61,7 +60,6 @@ function App() {
     video.src = videoSource;
     video.loop = true;
     video.muted = true;
-    //video.autoplay=true;
     video.setAttribute('playsinline', 'true');
     video.setAttribute('webkit-playsinline', 'true');
 
