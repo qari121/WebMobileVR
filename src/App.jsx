@@ -183,6 +183,10 @@ function App() {
         textMesh.rotation.y = Math.PI / 4;
         scene.add(textMesh1);
         scene.add(textMesh);
+      },
+      undefined,
+      (error) => {
+        console.error('Error loading font:', error);
       }
     );
 
