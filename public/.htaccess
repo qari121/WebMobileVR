@@ -1,0 +1,19 @@
+# Enable URL rewriting
+RewriteEngine On
+
+# Set the base directory
+RewriteBase /slopes2025/
+
+# If the request is for the directory without index.html
+RewriteCond %{REQUEST_URI} ^/slopes2025/$
+# Serve the index.html file but don't redirect
+RewriteRule ^$ index.html [L]
+
+# Handle all other requests
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . index.html [L]
+
+# Set default index file
+DirectoryIndex index.html
+

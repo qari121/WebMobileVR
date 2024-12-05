@@ -157,13 +157,13 @@ function App() {
     fontLoader.load(
       'https://threejs.org/examples/fonts/helvetiker_regular.typeface.json',
       (font) => {
-        const textGeometry = new TextGeometry('Shifting your perspective', {
+        const textGeometry = new TextGeometry("It's not what you look at that matters:", {
           font,
           size: 0.5,
           height: 0.2,
           curveSegments: 12,
         });
-        const textGeometry1 = new TextGeometry('reveals hidden messages', {
+        const textGeometry1 = new TextGeometry("it's what you see", {
           font,
           size: 0.5,
           height: 0.2,
