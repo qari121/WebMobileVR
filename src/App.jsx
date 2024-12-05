@@ -155,7 +155,7 @@ function App() {
     let textMesh1;
     const fontLoader = new FontLoader();
     fontLoader.load(
-      '/src/assets/texas.json',
+      '/src/Source Sans 3 ExtraLight_Regular.json',
       (font) => {
         const textGeometry = new TextGeometry("It's not what you look at that matters:", {
           font,
