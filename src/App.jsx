@@ -114,8 +114,8 @@ function App() {
     const diamondGroup = new THREE.Group();
     scene.add(diamondGroup);
 
-    const numRings = 16;
-    const diamondsPerRing = 24;
+    const numRings = 17;
+    const diamondsPerRing = 15;
     const numLayers = 8;
     const maxRadius = 8;
     const diamonds = [];
@@ -157,16 +157,16 @@ function App() {
     fontLoader.load(
       '/texas.json',
       (font) => {
-        const textGeometry = new TextGeometry("It's not what you look at that matters:", {
+        const textGeometry = new TextGeometry("It's not what you \nlook at that matters:", {
           font,
-          size: 0.5,
-          height: 0.2,
+          size: 0.8,
+          height: 0.3,
           curveSegments: 12,
         });
         const textGeometry1 = new TextGeometry("it's what you see", {
           font,
-          size: 0.5,
-          height: 0.2,
+          size: 1,
+          height: 0.3,
           curveSegments: 12,
         });
 
@@ -176,10 +176,10 @@ function App() {
         const textMaterial1 = new THREE.MeshBasicMaterial({ color: 0xffffff });
         textMesh1 = new THREE.Mesh(textGeometry1, textMaterial1);
 
-        textMesh1.position.set(2, 3, -3);
-        textMesh1.rotation.y = -Math.PI / 4;
+        textMesh1.position.set(7, 2, -3);
+        textMesh1.rotation.y = -Math.PI / 2.5;
 
-        textMesh.position.set(-7, 3, 3);
+        textMesh.position.set(-10, 2, 12);
         textMesh.rotation.y = Math.PI / 4;
         scene.add(textMesh1);
         scene.add(textMesh);
@@ -211,13 +211,13 @@ function App() {
         }
 
         if (textMesh) {
-          textMesh.position.y = 3 + Math.sin(time * 2) * 0.5;
-          textMesh.position.z = 3 + Math.cos(time * 2) * 0.5;
+          textMesh.position.y = 2 + Math.sin(time * 2) * 1;
+          textMesh.position.z = 12 + Math.cos(time * 2) * 1;
         }
 
         if (textMesh1) {
-          textMesh1.position.y = 1 + Math.sin(time * 2) * 0.5;
-          textMesh1.position.z = 1 + Math.cos(time * 2) * 0.5;
+          textMesh1.position.y = 2 + Math.sin(time * 2) * 1;
+          textMesh1.position.z = -3 + Math.cos(time * 2) * 1;
         }
 
         diamonds.forEach((diamond, index) => {
