@@ -155,7 +155,7 @@ function App() {
     let textMesh1;
     const fontLoader = new FontLoader();
     fontLoader.load(
-      '/src/source3.json',
+      '/texas.json',
       (font) => {
         const textGeometry = new TextGeometry("It's not what you look at that matters:", {
           font,
