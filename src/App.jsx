@@ -37,7 +37,7 @@ function App() {
       controlsRef.current = new DeviceOrientationControls(cameraRef.current);
       setHasGyroPermission(true);
       setShowButtons(true);
-       cameraRef.current.lookAt(45, 0, 0);
+      // cameraRef.current.lookAt(0, 0, 0);
     }
   };
 
@@ -101,7 +101,7 @@ function App() {
     const skybox = new THREE.Mesh(skyboxGeometry, skyboxMaterial);
     scene.add(skybox);
 
-    camera.position.set(0, 0, 8);
+   // camera.position.set(0, 0, 8);
 
     const renderer = new THREE.WebGLRenderer();
     renderer.setSize(window.innerWidth, window.innerHeight);
