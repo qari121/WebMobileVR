@@ -28,7 +28,7 @@ function App() {
   useEffect(() => {
     cameraRef.current = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     cameraRef.current.position.set(0, 0, 0);
-    cameraRef.current.lookAt(45, 0, 0);
+    
     // Check if the device is Android and rotate the camera
     const isAndroid = /Android/i.test(navigator.userAgent);
     if (isAndroid) {
@@ -42,7 +42,7 @@ function App() {
       controlsRef.current = new DeviceOrientationControls(cameraRef.current);
       setHasGyroPermission(true);
       setShowButtons(true);
-      // cameraRef.current.lookAt(0, 45, 0);
+       cameraRef.current.lookAt(0, 90, 0);
     }
   };
 
