@@ -100,11 +100,11 @@ function App() {
     const skybox = new THREE.Mesh(skyboxGeometry, skyboxMaterial);
     scene.add(skybox);
 
-    camera.position.set(0, 0, 8);
+    camera.position.set(0, 0, 5);
 
-    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-    const isAndroid = /Android/i.test(userAgent);
-    camera.lookAt(isAndroid ? new THREE.Vector3(45, 0, 0) : new THREE.Vector3(0, 0, 0)); // Set to (45,0,0) for Android
+    // const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+    // const isAndroid = /Android/i.test(userAgent);
+    // camera.lookAt(isAndroid ? new THREE.Vector3(45, 0, 0) : new THREE.Vector3(0, 0, 0)); // Set to (45,0,0) for Android
 
 
     const renderer = new THREE.WebGLRenderer();
