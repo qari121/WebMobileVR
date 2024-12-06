@@ -238,15 +238,15 @@ function App() {
           const { alpha, beta, gamma } = controlsRef.current.deviceOrientation;
 
           // Adjust lookAt.x based on platform
-          const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-          const isAndroid = /Android/i.test(userAgent);
-          cameraRef.current.lookAt.x =  -alpha / 90; // Set to 0.62 for Android
-          cameraRef.current.lookAt.y = beta / 90;
-          cameraRef.current.lookAt.z = -90;
+          // const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+          // const isAndroid = /Android/i.test(userAgent);
+          // cameraRef.current.lookAt.x =  -alpha / 90; // Set to 0.62 for Android
+          // cameraRef.current.lookAt.y = beta / 90;
+          // cameraRef.current.lookAt.z = -90;
 
-          setLookAtX(cameraRef.current.lookAt.x); // Update lookAtX state
+          // setLookAtX(cameraRef.current.lookAt.x); // Update lookAtX state
 
-          setCameraYPosition(cameraRef.current.position.y);
+          // setCameraYPosition(cameraRef.current.position.y);
         }
 
         if (textMesh) {
