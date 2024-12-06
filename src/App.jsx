@@ -37,7 +37,7 @@ function App() {
       controlsRef.current = new DeviceOrientationControls(cameraRef.current);
       setHasGyroPermission(true);
       setShowButtons(true);
-       cameraRef.current.lookAt(0, 0, 0);
+       cameraRef.current.lookAt(45, 0, 0);
     }
   };
 
