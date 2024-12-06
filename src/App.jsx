@@ -240,7 +240,7 @@ function App() {
           // Adjust lookAt.x based on platform
           const userAgent = navigator.userAgent || navigator.vendor || window.opera;
           const isAndroid = /Android/i.test(userAgent);
-          cameraRef.current.lookAt.x = isAndroid ? -0.90 : -gamma / 90; // Set to 0.62 for Android
+          cameraRef.current.lookAt.x =  -gamma / 45; // Set to 0.62 for Android
           cameraRef.current.lookAt.y = beta / 90;
           cameraRef.current.lookAt.z = -90;
 
