@@ -103,6 +103,11 @@ function App() {
 
     camera.position.set(0, 0, 8);
 
+    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+    const isAndroid = /Android/i.test(userAgent);
+    camera.rotation.x = isAndroid ? 45 : 0; // Set to 0.62 for Android
+
+
     const renderer = new THREE.WebGLRenderer();
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.shadowMap.enabled = true;
