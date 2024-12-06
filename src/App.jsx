@@ -37,7 +37,6 @@ function App() {
       controlsRef.current = new DeviceOrientationControls(cameraRef.current);
       setHasGyroPermission(true);
       setShowButtons(true);
-      // cameraRef.current.lookAt(0, 0, 0);
     }
   };
 
@@ -105,7 +104,7 @@ function App() {
 
     const userAgent = navigator.userAgent || navigator.vendor || window.opera;
     const isAndroid = /Android/i.test(userAgent);
-    camera.rotation.x = isAndroid ? 45 : 0; // Set to 0.62 for Android
+    camera.lookAt(isAndroid ? new THREE.Vector3(45, 0, 0) : new THREE.Vector3(0, 0, 0)); // Set to (45,0,0) for Android
 
 
     const renderer = new THREE.WebGLRenderer();
@@ -240,18 +239,6 @@ function App() {
         if (controlsRef.current) {
           controlsRef.current.update();
 
-          const { alpha, beta, gamma } = controlsRef.current.deviceOrientation;
-
-          // Adjust lookAt.x based on platform
-          // const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-          // const isAndroid = /Android/i.test(userAgent);
-          // cameraRef.current.lookAt.x =  -alpha / 90; // Set to 0.62 for Android
-          // cameraRef.current.lookAt.y = beta / 90;
-          // cameraRef.current.lookAt.z = -90;
-
-          // setLookAtX(cameraRef.current.lookAt.x); // Update lookAtX state
-
-          // setCameraYPosition(cameraRef.current.position.y);
         }
 
         if (textMesh) {
