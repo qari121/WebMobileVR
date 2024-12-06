@@ -237,14 +237,14 @@ function App() {
 
           const { alpha, beta, gamma } = controlsRef.current.deviceOrientation;
 
-          cameraRef.current.lookAt.x = -gamma / 90;
+          // Adjust lookAt.x based on platform
+          const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+          const isAndroid = /Android/i.test(userAgent);
+          cameraRef.current.lookAt.x = isAndroid ? -0.90 : -gamma / 90; // Set to 0.62 for Android
           cameraRef.current.lookAt.y = beta / 90;
           cameraRef.current.lookAt.z = -90;
 
-          // Adjust lookAtX based on platform
-          const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-          const isAndroid = /Android/i.test(userAgent);
-          setLookAtX(isAndroid ? -0.90 : cameraRef.current.lookAt.x); // Set to 0.62 for Android
+          setLookAtX(cameraRef.current.lookAt.x); // Update lookAtX state
 
           setCameraYPosition(cameraRef.current.position.y);
         }
