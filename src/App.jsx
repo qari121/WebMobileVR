@@ -37,7 +37,11 @@ function App() {
       controlsRef.current = new DeviceOrientationControls(cameraRef.current);
       setHasGyroPermission(true);
       setShowButtons(true);
-      // cameraRef.current.lookAt(0, 0, 0);
+
+      // Debug logs for camera position and rotation after enabling gyro controls
+      console.log('Gyro Controls Initialized');
+      console.log('Camera Position:', cameraRef.current.position);
+      console.log('Camera Rotation Gyro:', cameraRef.current.rotation);
     }
   };
 
@@ -229,12 +233,16 @@ function App() {
       requestAnimationFrame(animate);
 
       if (cameraRef.current) {
-        // Log the camera's position
+        // Log the camera's position and rotation
         console.log('Camera Position:', cameraRef.current.position);
         console.log('Camera Rotation:', cameraRef.current.rotation);
 
         if (controlsRef.current) {
           controlsRef.current.update();
+
+          // Log the camera's position and rotation after updating controls
+          console.log('Updated Camera Position:', cameraRef.current.position);
+          console.log('Updated Camera Rotation:', cameraRef.current.rotation);
         }
 
         if (textMesh) {
