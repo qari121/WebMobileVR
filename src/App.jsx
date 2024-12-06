@@ -237,9 +237,9 @@ function App() {
         console.log('Camera Position:', cameraRef.current.position);
         console.log('Camera Rotation:', cameraRef.current.rotation);
 
-        // if (controlsRef.current) {
-        //   controlsRef.current.update();
-        // }
+        if (controlsRef.current) {
+          controlsRef.current.update();
+        }
 
         if (textMesh) {
           textMesh.position.y = 2 + Math.sin(time * 2) * 1;
