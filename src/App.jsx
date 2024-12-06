@@ -37,7 +37,7 @@ function App() {
       controlsRef.current = new DeviceOrientationControls(cameraRef.current);
       setHasGyroPermission(true);
       setShowButtons(true);
-
+      // cameraRef.current.lookAt(0, 0, 0);
     }
   };
 
@@ -102,6 +102,10 @@ function App() {
     scene.add(skybox);
 
     camera.position.set(0, 0, 8);
+
+    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+    const isAndroid = /Android/i.test(userAgent);
+    camera.rotation.x = isAndroid ? 45 : 0; // Set to 0.62 for Android
 
 
     const renderer = new THREE.WebGLRenderer();
@@ -233,10 +237,9 @@ function App() {
         console.log('Camera Position:', cameraRef.current.position);
         console.log('Camera Rotation:', cameraRef.current.rotation);
 
-        if (controlsRef.current) {
-          controlsRef.current.update();
-
-        }
+        // if (controlsRef.current) {
+        //   controlsRef.current.update();
+        // }
 
         if (textMesh) {
           textMesh.position.y = 2 + Math.sin(time * 2) * 1;
