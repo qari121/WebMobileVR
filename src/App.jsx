@@ -4,6 +4,7 @@ import { DeviceOrientationControls } from 'three/examples/jsm/controls/DeviceOri
 import videoSource from './assets/s25invitevideo.mp4';
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js';
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js';
+import { GUI } from 'dat.gui';
 
 function App() {
   const mountRef = useRef(null);
@@ -15,6 +16,8 @@ function App() {
   const cameraRef = useRef(null);
   const [cameraYPosition, setCameraYPosition] = useState(0);
   const [lookAtX, setLookAtX] = useState(0);
+  let textMesh; // Declare textMesh in a higher scope
+  let textMesh1; // Declare textMesh1 in a higher scope
 
   useEffect(() => {
     const userAgent = navigator.userAgent || navigator.vendor || window.opera;
@@ -25,6 +28,12 @@ function App() {
   useEffect(() => {
     cameraRef.current = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     cameraRef.current.position.set(0, 0, 0);
+    // Check if the device is Android and rotate the camera
+    const isAndroid = /Android/i.test(navigator.userAgent);
+    if (isAndroid) {
+     // cameraRef.current.rotation.z = THREE.MathUtils.degToRad(-90); // Rotate camera by 45 degrees
+      console.log('Camera rotated by 45 degrees on Android device');
+    }
   }, []);
 
   const initGyroControls = () => {
@@ -32,7 +41,7 @@ function App() {
       controlsRef.current = new DeviceOrientationControls(cameraRef.current);
       setHasGyroPermission(true);
       setShowButtons(true);
-      cameraRef.current.lookAt(0, 0, 0);
+      cameraRef.current.lookAt(45, 0, 0);
     }
   };
 
@@ -100,6 +109,7 @@ function App() {
 
     const renderer = new THREE.WebGLRenderer();
     renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.shadowMap.enabled = true;
     mountRef.current.appendChild(renderer.domElement);
 
     const handleResize = () => {
@@ -107,6 +117,10 @@ function App() {
       camera.aspect = newAspectRatio;
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
+
+      // Log the camera's position and aspect ratio on resize
+      console.log('Camera Position on Resize:', camera.position);
+      console.log('Camera Aspect Ratio on Resize:', camera.aspect);
     };
 
     window.addEventListener('resize', handleResize);
@@ -151,8 +165,27 @@ function App() {
       }
     }
 
-    let textMesh;
-    let textMesh1;
+    // Set up lights
+    const dirLight = new THREE.DirectionalLight(0xffffff, 0.4);
+    dirLight.position.set(0, 0, 1).normalize();
+    dirLight.castShadow = true;
+    scene.add(dirLight);
+
+    const pointLight = new THREE.PointLight(0xffffff, 4.5, 0, 0);
+    pointLight.position.set(0, 100, 90);
+    pointLight.castShadow = true;
+    scene.add(pointLight);
+
+    // Ground plane to receive shadows
+    const plane = new THREE.Mesh(
+      new THREE.PlaneGeometry(10000, 10000),
+      new THREE.MeshBasicMaterial({ color: 0xffffff, opacity: 0.5, transparent: true })
+    );
+    plane.rotation.x = -Math.PI / 2;
+    plane.receiveShadow = true;
+    scene.add(plane);
+
+    // Load font and create text meshes
     const fontLoader = new FontLoader();
     fontLoader.load(
       '/texas.json',
@@ -161,7 +194,7 @@ function App() {
           font,
           size: 0.8,
           height: 0.3,
-          curveSegments: 12,
+          curveSegments: 4,
         });
         const textGeometry1 = new TextGeometry("it's what you see", {
           font,
@@ -170,19 +203,21 @@ function App() {
           curveSegments: 12,
         });
 
-        const textMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
+        const textMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff });
         textMesh = new THREE.Mesh(textGeometry, textMaterial);
+        textMesh1 = new THREE.Mesh(textGeometry1, textMaterial);
 
-        const textMaterial1 = new THREE.MeshBasicMaterial({ color: 0xffffff });
-        textMesh1 = new THREE.Mesh(textGeometry1, textMaterial1);
+        // Enable shadow casting for both text meshes
+        textMesh.castShadow = true;
+        textMesh1.castShadow = true;
 
-        textMesh1.position.set(7, 2, -3);
-        textMesh1.rotation.y = -Math.PI / 2.5;
-
-        textMesh.position.set(-10, 2, 12);
-        textMesh.rotation.y = Math.PI / 4;
-        scene.add(textMesh1);
+        textMesh.position.set(-4, 1, 10);
+        textMesh.rotation.y = Math.PI / 2;
         scene.add(textMesh);
+
+        textMesh1.position.set(3, 1, -1);
+        textMesh1.rotation.y = -Math.PI / 2.6;
+        scene.add(textMesh1);
       },
       undefined,
       (error) => {
@@ -197,17 +232,21 @@ function App() {
       requestAnimationFrame(animate);
 
       if (cameraRef.current) {
+        // Log the camera's position
+        console.log('Camera Position:', cameraRef.current.position);
+        console.log('Camera Rotation:', cameraRef.current.rotation);
+
         if (controlsRef.current) {
           controlsRef.current.update();
 
           const { alpha, beta, gamma } = controlsRef.current.deviceOrientation;
 
-          cameraRef.current.lookAt.x = -gamma / 90;
-          cameraRef.current.lookAt.y = beta / 90;
-          cameraRef.current.lookAt.z = 8;
+          // cameraRef.current.lookAt.x = -gamma / 90;
+          // cameraRef.current.lookAt.y = beta / 90;
+          // cameraRef.current.lookAt.z = -90;
 
-          setCameraYPosition(cameraRef.current.position.y);
-          setLookAtX(cameraRef.current.lookAt.x);
+          // setCameraYPosition(cameraRef.current.position.y);
+          // setLookAtX(cameraRef.current.lookAt.x);
         }
 
         if (textMesh) {
@@ -217,7 +256,7 @@ function App() {
 
         if (textMesh1) {
           textMesh1.position.y = 2 + Math.sin(time * 2) * 1;
-          textMesh1.position.z = -3 + Math.cos(time * 2) * 1;
+          textMesh1.position.z = -1 + Math.cos(time * 2) * 1;
         }
 
         diamonds.forEach((diamond, index) => {
@@ -247,12 +286,39 @@ function App() {
     }
     animate();
 
+    // Initialize GUI
+    const gui = new GUI();
+    const cameraFolder = gui.addFolder('Camera Controls');
+    const cameraPosition = { x: 0, y: 0, z: 8 };
+    const cameraRotation = { x: 0, y: 0, z: 0 };
+
+    cameraFolder.add(cameraPosition, 'x', -10, 10).onChange(() => {
+      cameraRef.current.position.x = cameraPosition.x;
+    });
+    cameraFolder.add(cameraPosition, 'y', -10, 10).onChange(() => {
+      cameraRef.current.position.y = cameraPosition.y;
+    });
+    cameraFolder.add(cameraPosition, 'z', 0, 20).onChange(() => {
+      cameraRef.current.position.z = cameraPosition.z;
+    });
+    cameraFolder.add(cameraRotation, 'x', -Math.PI, Math.PI).onChange(() => {
+      cameraRef.current.rotation.x = cameraRotation.x;
+    });
+    cameraFolder.add(cameraRotation, 'y', -Math.PI, Math.PI).onChange(() => {
+      cameraRef.current.rotation.y = cameraRotation.y;
+    });
+    cameraFolder.add(cameraRotation, 'z', -Math.PI, Math.PI).onChange(() => {
+      cameraRef.current.rotation.z = cameraRotation.z;
+    });
+    cameraFolder.open();
+
     return () => {
       if (controlsRef.current) {
         controlsRef.current.dispose();
       }
       mountRef.current.removeChild(renderer.domElement);
       window.removeEventListener('resize', handleResize);
+      gui.destroy(); // Clean up GUI on unmount
     };
   }, []);
 
@@ -380,6 +446,19 @@ function App() {
           2024 Recap
         </a>
       )}
+
+      {/* Display camera position and lookAtX */}
+      <div style={{
+        position: 'absolute',
+        bottom: '20px',
+        left: '20px',
+        color: 'white',
+        fontSize: '16px',
+        zIndex: 10
+      }}>
+        <div>Camera Y Position: {cameraYPosition.toFixed(2)}</div>
+        <div>Look At X: {lookAtX.toFixed(2)}</div>
+      </div>
     </div>
   );
 }
