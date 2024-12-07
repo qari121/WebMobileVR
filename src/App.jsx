@@ -372,7 +372,7 @@ function App() {
       )}
       
       {/* RSVP Button */}
-      {showButtons && (
+      {/* {showButtons && (
         <a href="https://slopes.events-liontree.com/i/preview/rsvp" target="_blank" rel="noopener noreferrer" style={{ 
           position: 'absolute', 
           bottom: '50px', 
@@ -393,10 +393,10 @@ function App() {
         }}>
           Confirm Details
         </a>
-      )}
+      )} */}
 
       {/* 2024 Recap Button */}
-      {showButtons && (
+      {/* {showButtons && (
         <a href="https://vimeo.com/alexhoxie/review/920675397/6133175eb0" target="_blank" rel="noopener noreferrer" style={{ 
           position: 'absolute', 
           bottom: '100px', 
@@ -417,9 +417,9 @@ function App() {
         }}>
           2024 Recap
         </a>
-      )}
+      )} */}
 
-      {/* Display camera position and lookAtX */}
+      {/* Display camera position and lookAtX
       <div style={{
         position: 'absolute',
         bottom: '20px',
@@ -432,7 +432,7 @@ function App() {
         <div>Look At X: {lookAtX.toFixed(2)}</div>
         <div>Camera Position: X: {cameraPosition.x.toFixed(2)}, Y: {cameraPosition.y.toFixed(2)}, Z: {cameraPosition.z.toFixed(2)}</div>
         <div>Camera Rotation: X: {cameraRotation.x.toFixed(2)}, Y: {cameraRotation.y.toFixed(2)}, Z: {cameraRotation.z.toFixed(2)}</div>
-      </div>
+      </div> */}
     </div>
   );
 }
