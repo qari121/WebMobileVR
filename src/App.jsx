@@ -21,17 +21,6 @@ function App() {
   const [cameraPosition, setCameraPosition] = useState({ x: 0, y: 0, z: 0 });
   const [cameraRotation, setCameraRotation] = useState({ x: 0, y: 0, z: 0 });
 
-  // useEffect(() => {
-  //   const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-  //   const mobileCheck = /iPhone|iPad|iPod|Android/i.test(userAgent);
-  //   setIsMobile(mobileCheck);
-  // }, []);
-
-  // useEffect(() => {
-
-    
-  // }, []);
-
   const initGyroControls = () => {
     if (cameraRef.current) {
       controlsRef.current = new DeviceOrientationControls(cameraRef.current);
@@ -308,31 +297,6 @@ function App() {
     }
     animate();
 
-    // Initialize GUI
-    const gui = new GUI();
-    const cameraFolder = gui.addFolder('Camera Controls');
-    const cameraPosition = { x: 0, y: 0, z: 8 };
-    const cameraRotation = { x: 0, y: 0, z: 0 };
-
-    cameraFolder.add(cameraPosition, 'x', -10, 10).onChange(() => {
-      cameraRef.current.position.x = cameraPosition.x;
-    });
-    cameraFolder.add(cameraPosition, 'y', -10, 10).onChange(() => {
-      cameraRef.current.position.y = cameraPosition.y;
-    });
-    cameraFolder.add(cameraPosition, 'z', 0, 20).onChange(() => {
-      cameraRef.current.position.z = cameraPosition.z;
-    });
-    cameraFolder.add(cameraRotation, 'x', -Math.PI, Math.PI).onChange(() => {
-      cameraRef.current.rotation.x = cameraRotation.x;
-    });
-    cameraFolder.add(cameraRotation, 'y', -Math.PI, Math.PI).onChange(() => {
-      cameraRef.current.rotation.y = cameraRotation.y;
-    });
-    cameraFolder.add(cameraRotation, 'z', -Math.PI, Math.PI).onChange(() => {
-      cameraRef.current.rotation.z = cameraRotation.z;
-    });
-    cameraFolder.open();
 
     return () => {
       if (controlsRef.current) {
@@ -356,7 +320,6 @@ function App() {
           color: 'white',
           textAlign: 'center'
         }}>
-          Loading...
         </div>
       )}
       {!hasGyroPermission && (
