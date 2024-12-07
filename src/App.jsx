@@ -74,7 +74,18 @@ function App() {
           if (deviceOrientation) {
             const quaternion = deviceOrientation.getScreenAdjustedQuaternion();
             if (controlsRef.current) {
+              // Normalize the rotation values
+              const euler = new THREE.Euler().setFromQuaternion(quaternion);
+              
+              // Adjust the Y rotation based on device type
+              if (/Android/i.test(navigator.userAgent)) {
+                euler.y += Math.PI; // Adjust for Android
+              } else if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+                euler.y += 0; // No adjustment for iOS
+              }
+
               controlsRef.current.setObjectQuaternion(quaternion);
+              cameraRef.current.rotation.set(euler.x, euler.y, euler.z);
             }
           }
           requestAnimationFrame(animate);
