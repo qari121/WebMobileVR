@@ -5,6 +5,7 @@ import videoSource from './assets/s25invitevideo.mp4';
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js';
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js';
 import { GUI } from 'dat.gui';
+import FULLTILT from '/bower_components/fulltilt/dist/fulltilt.js'; // Import Full Tilt
 
 function App() {
   const mountRef = useRef(null);
@@ -54,12 +55,38 @@ function App() {
       } catch (error) {
         console.error('Error requesting device orientation permission:', error);
       }
-    } else if (window.DeviceOrientationEvent) {
+    } else {
       initGyroControls();
     }
   };
 
   useEffect(() => {
+    // Initialize Full Tilt
+    const promise = FULLTILT.getDeviceOrientation({ type: 'world' });
+
+    let deviceOrientation;
+
+    promise
+      .then((controller) => {
+        deviceOrientation = controller;
+        // Start updating the device orientation
+        const animate = () => {
+          if (deviceOrientation) {
+            const quaternion = deviceOrientation.getScreenAdjustedQuaternion();
+            if (controlsRef.current) {
+              controlsRef.current.setObjectQuaternion(quaternion);
+            }
+          }
+          requestAnimationFrame(animate);
+        };
+        animate();
+      })
+      .catch((message) => {
+        console.error(message);
+        // Optionally set up fallback controls...
+        // initManualControls();
+      });
+
     const scene = new THREE.Scene();
     cameraRef.current = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     cameraRef.current.position.set(0, 0, 0);
@@ -229,7 +256,6 @@ function App() {
 
     let time = 0;
     const slowDownFactor = 0.2;
-    const rotationAngle = Math.PI / 4; // 45 degreesin radians
 
     function animate() {
       requestAnimationFrame(animate);
@@ -261,6 +287,7 @@ function App() {
           console.log('User Agent:', navigator.userAgent); // Log user agent for device info
         }
 
+        
         if (textMesh) {
           textMesh.position.y = 2 + Math.sin(time * 2) * 1;
           textMesh.position.z = 12 + Math.cos(time * 2) * 1;
@@ -271,6 +298,7 @@ function App() {
           textMesh1.position.z = -1 + Math.cos(time * 2) * 1;
         }
 
+        //diamonds rotation
         diamonds.forEach((diamond, index) => {
           const initialPos = initialPositions[index];
           const layerIndex = Math.floor(index / (diamondsPerRing * numRings));
@@ -279,10 +307,9 @@ function App() {
           const convergence = Math.max(0, Math.sin(time * 1.5 - layerDelay) * 0.9);
           const convergenceScale = 1 - convergence;
 
-          // Apply rotation around Y-axis
-          const rotatedX = initialPos.x * Math.cos(rotationAngle) - initialPos.z * Math.sin(rotationAngle);
-          const rotatedZ = initialPos.x * Math.sin(rotationAngle) + initialPos.z * Math.cos(rotationAngle);
-          const rotatedY = initialPos.y; // Y remains unchanged
+          const rotatedX = initialPos.x * Math.cos(time * 0.5) - initialPos.y * Math.sin(time * 0.5);
+          const rotatedY = initialPos.x * Math.sin(time * 0.5) + initialPos.y * Math.cos(time * 0.5);
+          const rotatedZ = initialPos.z;
 
           diamond.position.x = rotatedX * convergenceScale;
           diamond.position.y = rotatedY * convergenceScale;
