@@ -21,18 +21,16 @@ function App() {
   const [cameraPosition, setCameraPosition] = useState({ x: 0, y: 0, z: 0 });
   const [cameraRotation, setCameraRotation] = useState({ x: 0, y: 0, z: 0 });
 
-  useEffect(() => {
-    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-    const mobileCheck = /iPhone|iPad|iPod|Android/i.test(userAgent);
-    setIsMobile(mobileCheck);
-  }, []);
+  // useEffect(() => {
+  //   const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+  //   const mobileCheck = /iPhone|iPad|iPod|Android/i.test(userAgent);
+  //   setIsMobile(mobileCheck);
+  // }, []);
 
-  useEffect(() => {
-    cameraRef.current = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    cameraRef.current.position.set(0, 0, 0);
+  // useEffect(() => {
 
     
-  }, []);
+  // }, []);
 
   const initGyroControls = () => {
     if (cameraRef.current) {
@@ -74,6 +72,9 @@ function App() {
 
   useEffect(() => {
     const scene = new THREE.Scene();
+    cameraRef.current = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    cameraRef.current.position.set(0, 0, 0);
+
     const camera = cameraRef.current;
 
     const video = document.createElement('video');
