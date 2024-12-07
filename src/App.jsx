@@ -229,6 +229,7 @@ function App() {
 
     let time = 0;
     const slowDownFactor = 0.2;
+    const rotationAngle = Math.PI / 4; // 45 degreesin radians
 
     function animate() {
       requestAnimationFrame(animate);
@@ -278,9 +279,10 @@ function App() {
           const convergence = Math.max(0, Math.sin(time * 1.5 - layerDelay) * 0.9);
           const convergenceScale = 1 - convergence;
 
-          const rotatedX = initialPos.x * Math.cos(time * 0.5) - initialPos.y * Math.sin(time * 0.5);
-          const rotatedY = initialPos.x * Math.sin(time * 0.5) + initialPos.y * Math.cos(time * 0.5);
-          const rotatedZ = initialPos.z;
+          // Apply rotation around Y-axis
+          const rotatedX = initialPos.x * Math.cos(rotationAngle) - initialPos.z * Math.sin(rotationAngle);
+          const rotatedZ = initialPos.x * Math.sin(rotationAngle) + initialPos.z * Math.cos(rotationAngle);
+          const rotatedY = initialPos.y; // Y remains unchanged
 
           diamond.position.x = rotatedX * convergenceScale;
           diamond.position.y = rotatedY * convergenceScale;
@@ -372,7 +374,7 @@ function App() {
       )}
       
       {/* RSVP Button */}
-      {/* {showButtons && (
+      {showButtons && (
         <a href="https://slopes.events-liontree.com/i/preview/rsvp" target="_blank" rel="noopener noreferrer" style={{ 
           position: 'absolute', 
           bottom: '50px', 
@@ -393,10 +395,10 @@ function App() {
         }}>
           Confirm Details
         </a>
-      )} */}
+      )}
 
       {/* 2024 Recap Button */}
-      {/* {showButtons && (
+      {showButtons && (
         <a href="https://vimeo.com/alexhoxie/review/920675397/6133175eb0" target="_blank" rel="noopener noreferrer" style={{ 
           position: 'absolute', 
           bottom: '100px', 
@@ -417,9 +419,9 @@ function App() {
         }}>
           2024 Recap
         </a>
-      )} */}
+      )}
 
-      {/* Display camera position and lookAtX
+      {/* Display camera position and lookAtX */}
       <div style={{
         position: 'absolute',
         bottom: '20px',
@@ -432,7 +434,7 @@ function App() {
         <div>Look At X: {lookAtX.toFixed(2)}</div>
         <div>Camera Position: X: {cameraPosition.x.toFixed(2)}, Y: {cameraPosition.y.toFixed(2)}, Z: {cameraPosition.z.toFixed(2)}</div>
         <div>Camera Rotation: X: {cameraRotation.x.toFixed(2)}, Y: {cameraRotation.y.toFixed(2)}, Z: {cameraRotation.z.toFixed(2)}</div>
-      </div> */}
+      </div>
     </div>
   );
 }
