@@ -49,11 +49,9 @@ function App() {
       // Check if the device is Android
       const isAndroid = /Android/i.test(navigator.userAgent);
       if (isAndroid) {
-        // Normalize camera rotation to match iOS starting values
-        const targetRotation = { x: 0, y: -0.02, z: 0 }; // Example target values
-        cameraRef.current.rotation.set(targetRotation.x, targetRotation.y, targetRotation.z);
-        console.log('Normalized Camera Rotation for Android:', cameraRef.current.rotation);
+        cameraRef.current.rotation.y = 0; // Reset Yrotation for Android
       }
+      console.log('Camera Rotation Y Android:', cameraRef.current.rotation);
     }
   };
 
