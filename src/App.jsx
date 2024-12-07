@@ -18,6 +18,8 @@ function App() {
   const [lookAtX, setLookAtX] = useState(0);
   let textMesh; // Declare textMesh in a higher scope
   let textMesh1; // Declare textMesh1 in a higher scope
+  const [cameraPosition, setCameraPosition] = useState({ x: 0, y: 0, z: 0 });
+  const [cameraRotation, setCameraRotation] = useState({ x: 0, y: 0, z: 0 });
 
   useEffect(() => {
     const userAgent = navigator.userAgent || navigator.vendor || window.opera;
@@ -41,7 +43,7 @@ function App() {
       // Debug logs for camera position and rotation after enabling gyro controls
       console.log('Gyro Controls Initialized');
       console.log('Camera Position:', cameraRef.current.position);
-      console.log('Camera Rotation Gyro:', cameraRef.current.rotation);
+      console.log('Camera Rotation:', cameraRef.current.rotation);
     }
   };
 
@@ -236,6 +238,18 @@ function App() {
         // Log the camera's position and rotation
         console.log('Camera Position:', cameraRef.current.position);
         console.log('Camera Rotation:', cameraRef.current.rotation);
+
+        // Update state with camera position and rotation
+        setCameraPosition({
+          x: cameraRef.current.position.x,
+          y: cameraRef.current.position.y,
+          z: cameraRef.current.position.z,
+        });
+        setCameraRotation({
+          x: cameraRef.current.rotation.x,
+          y: cameraRef.current.rotation.y,
+          z: cameraRef.current.rotation.z,
+        });
 
         if (controlsRef.current) {
           controlsRef.current.update();
@@ -454,6 +468,8 @@ function App() {
       }}>
         <div>Camera Y Position: {cameraYPosition.toFixed(2)}</div>
         <div>Look At X: {lookAtX.toFixed(2)}</div>
+        <div>Camera Position: X: {cameraPosition.x.toFixed(2)}, Y: {cameraPosition.y.toFixed(2)}, Z: {cameraPosition.z.toFixed(2)}</div>
+        <div>Camera Rotation: X: {cameraRotation.x.toFixed(2)}, Y: {cameraRotation.y.toFixed(2)}, Z: {cameraRotation.z.toFixed(2)}</div>
       </div>
     </div>
   );
