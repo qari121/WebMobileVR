@@ -23,38 +23,72 @@ function App() {
   const initGyroControls = () => {
     if (cameraRef.current) {
       controlsRef.current = new DeviceOrientationControls(cameraRef.current);
+
       setHasGyroPermission(true);
       setShowButtons(true);
 
       // Debug logs for camera position and rotation after enabling gyro controls
-      console.log('Gyro Controls Initialized');
+      // console.log('Gyro Controls Initialized');
+      // console.log('Camera Position:', cameraRef.current.position);
+      // console.log('Camera Rotation:', cameraRef.current.rotation);
+      // console.log('User Agent:', navigator.userAgent); // Log user agent for device info
+
+      // Check if the device is Android
+      // const isAndroid = /Android/i.test(navigator.userAgent);
+      // if (isAndroid) {
+      //   cameraRef.current.rotation.set(0, 0, 0); // Reset all rotations for Android
+      //   cameraRef.current.lookAt(new THREE.Vector3(0, 0, 0)); // Look at the origin
+      // }
+      // console.log('Camera Rotation Y Android:', cameraRef.current.rotation);
+    }
+  };
+
+  const onDeviceOrientation = () => {
+    console.log('onDeviceOrientation');
+    if (cameraRef.current) {
+      // Log the camera's position and rotation
       console.log('Camera Position:', cameraRef.current.position);
       console.log('Camera Rotation:', cameraRef.current.rotation);
       console.log('User Agent:', navigator.userAgent); // Log user agent for device info
 
-      // Check if the device is Android
-      const isAndroid = /Android/i.test(navigator.userAgent);
-      if (isAndroid) {
-        cameraRef.current.rotation.set(0, 0, 0); // Reset all rotations for Android
-        cameraRef.current.lookAt(new THREE.Vector3(0, 0, 0)); // Look at the origin
+      // Update state with camera position and rotation
+      setCameraPosition({
+        x: cameraRef.current.position.x,
+        y: cameraRef.current.position.y,
+        z: cameraRef.current.position.z,
+      });
+      setCameraRotation({
+        x: cameraRef.current.rotation.x,
+        y: cameraRef.current.rotation.y,
+        z: cameraRef.current.rotation.z,
+      });
+
+      if (controlsRef.current) {
+        controlsRef.current.update();
+
+        // Log the camera's position and rotation after updating controls
+        console.log('Updated Camera Position:', cameraRef.current.position);
+        console.log('Updated Camera Rotation:', cameraRef.current.rotation);
+        console.log('User Agent:', navigator.userAgent); // Log user agent for device info
       }
-      console.log('Camera Rotation Y Android:', cameraRef.current.rotation);
     }
   };
 
   const requestGyroPermission = async () => {
     if (typeof DeviceOrientationEvent !== 'undefined' &&
-        typeof DeviceOrientationEvent.requestPermission === 'function') {
+      typeof DeviceOrientationEvent.requestPermission === 'function') {
       try {
         const permission = await DeviceOrientationEvent.requestPermission();
         if (permission === 'granted') {
           initGyroControls();
+          window.addEventListener('deviceorientation', onDeviceOrientation);
         }
       } catch (error) {
         console.error('Error requesting device orientation permission:', error);
       }
     } else if (window.DeviceOrientationEvent) {
       initGyroControls();
+      window.addEventListener('deviceorientation', onDeviceOrientation);
     }
   };
 
@@ -233,31 +267,7 @@ function App() {
       requestAnimationFrame(animate);
 
       if (cameraRef.current) {
-        // Log the camera's position and rotation
-        console.log('Camera Position:', cameraRef.current.position);
-        console.log('Camera Rotation:', cameraRef.current.rotation);
-        console.log('User Agent:', navigator.userAgent); // Log user agent for device info
 
-        // Update state with camera position and rotation
-        setCameraPosition({
-          x: cameraRef.current.position.x,
-          y: cameraRef.current.position.y,
-          z: cameraRef.current.position.z,
-        });
-        setCameraRotation({
-          x: cameraRef.current.rotation.x,
-          y: cameraRef.current.rotation.y,
-          z: cameraRef.current.rotation.z,
-        });
-
-        if (controlsRef.current) {
-          controlsRef.current.update();
-
-          // Log the camera's position and rotation after updating controls
-          console.log('Updated Camera Position:', cameraRef.current.position);
-          console.log('Updated Camera Rotation:', cameraRef.current.rotation);
-          console.log('User Agent:', navigator.userAgent); // Log user agent for device info
-        }
 
         if (textMesh) {
           textMesh.position.y = 2 + Math.sin(time * 2) * 1;
@@ -292,7 +302,7 @@ function App() {
 
         renderer.render(scene, cameraRef.current);
       }
-      
+
       time += 0.01 * slowDownFactor;
     }
     animate();
@@ -320,8 +330,8 @@ function App() {
           alignItems: 'center',
           opacity: 0.8
         }}>
-          <div 
-            style={{ 
+          <div
+            style={{
               width: '120px',
               height: '120px',
               borderRadius: '50%',
@@ -330,9 +340,9 @@ function App() {
               justifyContent: 'center',
               alignItems: 'center'
             }}>
-            <a 
-              onClick={requestGyroPermission} 
-              style={{ 
+            <a
+              onClick={requestGyroPermission}
+              style={{
                 position: 'relative',
                 width: '50px',
                 height: '50px',
@@ -354,8 +364,8 @@ function App() {
               <span style={{ marginBottom: '2px' }}>Enable</span>
               <span>360° Rotation</span>
             </a>
-            <div 
-              style={{ 
+            <div
+              style={{
                 position: 'absolute',
                 width: '130%',
                 height: '130%',
@@ -365,29 +375,29 @@ function App() {
                 left: '50%',
                 transform: 'translate(-50%, -50%)',
                 zIndex: -1
-              }} 
+              }}
             />
           </div>
         </div>
       )}
-      
+
       {/* RSVP Button */}
       {showButtons && (
-        <a href="https://slopes.events-liontree.com/i/preview/rsvp" target="_blank" rel="noopener noreferrer" style={{ 
-          position: 'absolute', 
-          bottom: '50px', 
-          left: '50%', 
-          transform: 'translateX(-50%)', 
-          display: 'inline-block', 
+        <a href="https://slopes.events-liontree.com/i/preview/rsvp" target="_blank" rel="noopener noreferrer" style={{
+          position: 'absolute',
+          bottom: '50px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          display: 'inline-block',
           width: '200px', // Same width as other buttons
           padding: '10px 0', // Same padding
           borderRadius: '20px', // Same border radius
-          backgroundColor: '#00A9E4', 
-          color: 'white', 
-          textDecoration: 'none', 
-          textAlign: 'center', 
+          backgroundColor: '#00A9E4',
+          color: 'white',
+          textDecoration: 'none',
+          textAlign: 'center',
           boxShadow: 'none', // Same shadow effect
-          transition: 'background-color 0.3s, transform 0.3s', 
+          transition: 'background-color 0.3s, transform 0.3s',
           fontFamily: 'Source Sans Pro, sans-serif', // Use Source Sans Pro font
           fontWeight: 400 // Regular weight
         }}>
@@ -397,21 +407,21 @@ function App() {
 
       {/* 2024 Recap Button */}
       {showButtons && (
-        <a href="https://vimeo.com/alexhoxie/review/920675397/6133175eb0" target="_blank" rel="noopener noreferrer" style={{ 
-          position: 'absolute', 
-          bottom: '100px', 
-          left: '50%', 
-          transform: 'translateX(-50%)', 
-          display: 'inline-block', 
+        <a href="https://vimeo.com/alexhoxie/review/920675397/6133175eb0" target="_blank" rel="noopener noreferrer" style={{
+          position: 'absolute',
+          bottom: '100px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          display: 'inline-block',
           width: '200px', // Same width as other buttons
           padding: '10px 0', // Same padding
           borderRadius: '20px', // Same border radius
-          backgroundColor: '#f38f2e', 
-          color: 'white', 
-          textDecoration: 'none', 
-          textAlign: 'center', 
+          backgroundColor: '#f38f2e',
+          color: 'white',
+          textDecoration: 'none',
+          textAlign: 'center',
           boxShadow: 'none', // Same shadow effect
-          transition: 'background-color 0.3s, transform 0.3s', 
+          transition: 'background-color 0.3s, transform 0.3s',
           fontFamily: 'Source Sans Pro, sans-serif', // Use Source Sans Pro font
           fontWeight: 400 // Regular weight
         }}>
