@@ -4,8 +4,6 @@ import { DeviceOrientationControls } from 'three/examples/jsm/controls/DeviceOri
 import videoSource from './assets/s25invitevideo.mp4';
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js';
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js';
-import { GUI } from 'dat.gui';
-import FULLTILT from '/bower_components/fulltilt/dist/fulltilt.js'; // Import Full Tilt
 
 function App() {
   const mountRef = useRef(null);
@@ -55,49 +53,12 @@ function App() {
       } catch (error) {
         console.error('Error requesting device orientation permission:', error);
       }
-    } else {
+    } else if (window.DeviceOrientationEvent) {
       initGyroControls();
     }
   };
 
   useEffect(() => {
-    // Initialize Full Tilt
-    const promise = FULLTILT.getDeviceOrientation({ type: 'world' });
-
-    let deviceOrientation;
-
-    promise
-      .then((controller) => {
-        deviceOrientation = controller;
-        // Start updating the device orientation
-        const animate = () => {
-          if (deviceOrientation) {
-            const quaternion = deviceOrientation.getScreenAdjustedQuaternion();
-            if (controlsRef.current) {
-              // Normalize the rotation values
-              const euler = new THREE.Euler().setFromQuaternion(quaternion);
-              
-              // Adjust the Y rotation based on device type
-              if (/Android/i.test(navigator.userAgent)) {
-                euler.y += Math.PI; // Adjust for Android
-              } else if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-                euler.y += 0; // No adjustment for iOS
-              }
-
-              controlsRef.current.setObjectQuaternion(quaternion);
-              cameraRef.current.rotation.set(euler.x, euler.y, euler.z);
-            }
-          }
-          requestAnimationFrame(animate);
-        };
-        animate();
-      })
-      .catch((message) => {
-        console.error(message);
-        // Optionally set up fallback controls...
-        // initManualControls();
-      });
-
     const scene = new THREE.Scene();
     cameraRef.current = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     cameraRef.current.position.set(0, 0, 0);
@@ -298,7 +259,6 @@ function App() {
           console.log('User Agent:', navigator.userAgent); // Log user agent for device info
         }
 
-        
         if (textMesh) {
           textMesh.position.y = 2 + Math.sin(time * 2) * 1;
           textMesh.position.z = 12 + Math.cos(time * 2) * 1;
