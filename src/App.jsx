@@ -44,6 +44,16 @@ function App() {
       console.log('Gyro Controls Initialized');
       console.log('Camera Position:', cameraRef.current.position);
       console.log('Camera Rotation:', cameraRef.current.rotation);
+      console.log('User Agent:', navigator.userAgent); // Log user agent for device info
+
+      // Check if the device is Android
+      const isAndroid = /Android/i.test(navigator.userAgent);
+      if (isAndroid) {
+        // Normalize camera rotation to match iOS starting values
+        const targetRotation = { x: 0, y: -0.02, z: 0 }; // Example target values
+        cameraRef.current.rotation.set(targetRotation.x, targetRotation.y, targetRotation.z);
+        console.log('Normalized Camera Rotation for Android:', cameraRef.current.rotation);
+      }
     }
   };
 
@@ -238,6 +248,7 @@ function App() {
         // Log the camera's position and rotation
         console.log('Camera Position:', cameraRef.current.position);
         console.log('Camera Rotation:', cameraRef.current.rotation);
+        console.log('User Agent:', navigator.userAgent); // Log user agent for device info
 
         // Update state with camera position and rotation
         setCameraPosition({
@@ -257,6 +268,7 @@ function App() {
           // Log the camera's position and rotation after updating controls
           console.log('Updated Camera Position:', cameraRef.current.position);
           console.log('Updated Camera Rotation:', cameraRef.current.rotation);
+          console.log('User Agent:', navigator.userAgent); // Log user agent for device info
         }
 
         if (textMesh) {
