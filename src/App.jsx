@@ -304,24 +304,11 @@ function App() {
       }
       mountRef.current.removeChild(renderer.domElement);
       window.removeEventListener('resize', handleResize);
-      gui.destroy(); // Clean up GUI on unmount
     };
   }, []);
 
   return (
     <div ref={mountRef} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', overflow: 'hidden' }}>
-      {isLoading && (
-        <div style={{
-          position: 'absolute',
-          top: '40%',
-          left: '40%',
-          transform: 'translate(-50%, -50%)',
-          fontSize: '24px',
-          color: 'white',
-          textAlign: 'center'
-        }}>
-        </div>
-      )}
       {!hasGyroPermission && (
         <div style={{
           position: 'absolute',
