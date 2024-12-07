@@ -49,7 +49,8 @@ function App() {
       // Check if the device is Android
       const isAndroid = /Android/i.test(navigator.userAgent);
       if (isAndroid) {
-        cameraRef.current.rotation.y = 0; // Reset Yrotation for Android
+        cameraRef.current.rotation.set(0, 0, 0); // Reset all rotations for Android
+        cameraRef.current.lookAt(new THREE.Vector3(0, 0, 0)); // Look at the origin
       }
       console.log('Camera Rotation Y Android:', cameraRef.current.rotation);
     }
