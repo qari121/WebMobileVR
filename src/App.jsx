@@ -4,6 +4,8 @@ import { DeviceOrientationControls } from 'three/examples/jsm/controls/DeviceOri
 import videoSource from './assets/s25invitevideo.mp4';
 import React from 'react';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import icon from '/tilt.png';
+import './App.css';
 
 function App() {
   const mountRef = useRef(null);
@@ -13,10 +15,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
   const controlsRef = useRef(null);
   const cameraRef = useRef(null);
-  const [cameraYPosition, setCameraYPosition] = useState(0);
-  const [lookAtX, setLookAtX] = useState(0);
-  const [cameraPosition, setCameraPosition] = useState({ x: 0, y: 0, z: 0 });
-  const [cameraRotation, setCameraRotation] = useState({ x: 0, y: 0, z: 0 });
+  const [showIcon, setShowIcon] = useState(true);
 
   const initGyroControls = () => {
     if (cameraRef.current) {
@@ -31,31 +30,11 @@ function App() {
   const onDeviceOrientation = () => {
     console.log('onDeviceOrientation');
     if (cameraRef.current) {
-      // Log the camera's position and rotation
-      console.log('Camera Position:', cameraRef.current.position);
-      console.log('Camera Rotation:', cameraRef.current.rotation);
-      console.log('User Agent:', navigator.userAgent); // Log user agent for device info
 
-      // Update state with camera position and rotation
-      setCameraPosition({
-        x: cameraRef.current.position.x,
-        y: cameraRef.current.position.y,
-        z: cameraRef.current.position.z,
-      });
-      setCameraRotation({
-        x: cameraRef.current.rotation.x,
-        y: cameraRef.current.rotation.y,
-        z: cameraRef.current.rotation.z,
-      });
 
       if (controlsRef.current) {
         console.log(cameraRef.current.rotation);
         controlsRef.current.update();
-
-        // Log the camera's position and rotation after updating controls
-        console.log('Updated Camera Position:', cameraRef.current.position);
-        console.log('Updated Camera Rotation:', cameraRef.current.rotation);
-        console.log('User Agent:', navigator.userAgent); // Log user agent for device info
       }
     }
   };
@@ -151,9 +130,6 @@ function App() {
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
 
-      // Log the camera's position and aspect ratio on resize
-      console.log('Camera Position on Resize:', camera.position);
-      console.log('Camera Aspect Ratio on Resize:', camera.aspect);
     };
 
     window.addEventListener('resize', handleResize);
@@ -261,7 +237,7 @@ function App() {
       const model = gltf.scene;
       model.position.set(0, 1.5, 5); // Adjust position as needed
       model.scale.set(.5, .5, .5); // Adjust the scale as needed
-      model.rotation.set(0, 80, 0); // Adjust the rotation as needed
+      model.rotation.set(0, 80.1, 0); // Adjust the rotation as needed
       scene.add(model);
     });
 
@@ -269,9 +245,13 @@ function App() {
       const model = gltf.scene;
       model.position.set(0, -1.5, 4); // Adjust position as needed
       model.scale.set(.7, .7, .7); // Adjust the scale as needed
-      model.rotation.set(0, 80, 0); // Adjust the rotation as needed
+      model.rotation.set(0, 80.1, 0); // Adjust the rotation as needed
       scene.add(model);
     });
+
+    const timer = setTimeout(() => {
+      setShowIcon(false);
+    }, 4000);
 
     return () => {
       if (controlsRef.current) {
@@ -279,12 +259,21 @@ function App() {
       }
       mountRef.current.removeChild(renderer.domElement);
       window.removeEventListener('resize', handleResize);
+      clearTimeout(timer);
     };
   }, []);
 
   return (
     <div ref={mountRef} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', overflow: 'hidden' }}>
-      {!hasGyroPermission && (
+      {showIcon && (
+        <div className="rotate-icon">
+          <img src={icon} alt="Rotate your phone" />
+        </div>
+      )}
+      {!hasGyroPermission 
+      && (
+
+        
         <div style={{
           position: 'absolute',
           top: '50%',
@@ -394,20 +383,6 @@ function App() {
         </a>
       )}
 
-      {/* Display camera position and lookAtX */}
-      <div style={{
-        position: 'absolute',
-        bottom: '20px',
-        left: '20px',
-        color: 'white',
-        fontSize: '16px',
-        zIndex: 10
-      }}>
-        <div>Camera Y Position: {cameraYPosition.toFixed(2)}</div>
-        <div>Look At X: {lookAtX.toFixed(2)}</div>
-        <div>Camera Position: X: {cameraPosition.x.toFixed(2)}, Y: {cameraPosition.y.toFixed(2)}, Z: {cameraPosition.z.toFixed(2)}</div>
-        <div>Camera Rotation: X: {cameraRotation.x.toFixed(2)}, Y: {cameraRotation.y.toFixed(2)}, Z: {cameraRotation.z.toFixed(2)}</div>
-      </div>
     </div>
   );
 }
