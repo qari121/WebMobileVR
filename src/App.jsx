@@ -2,8 +2,6 @@ import { useState, useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { DeviceOrientationControls } from 'three/examples/jsm/controls/DeviceOrientationControls.js';
 import videoSource from './assets/s25invitevideo.mp4';
-import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js';
-import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js';
 import React from 'react';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
@@ -259,7 +257,7 @@ function App() {
 
     // Load GLB models
     const gltfLoader = new GLTFLoader();
-    gltfLoader.load('./src/assets/Text1.glb', (gltf) => {
+    gltfLoader.load('./Text1.glb', (gltf) => {
       const model = gltf.scene;
       model.position.set(0, 1.5, 5); // Adjust position as needed
       model.scale.set(.5, .5, .5); // Adjust the scale as needed
@@ -267,7 +265,7 @@ function App() {
       scene.add(model);
     });
 
-    gltfLoader.load('./src/assets/Text2.glb', (gltf) => {
+    gltfLoader.load('./Text2.glb', (gltf) => {
       const model = gltf.scene;
       model.position.set(0, -1.5, 4); // Adjust position as needed
       model.scale.set(.7, .7, .7); // Adjust the scale as needed
