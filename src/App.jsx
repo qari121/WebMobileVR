@@ -250,7 +250,7 @@ function App() {
         textMesh.rotation.y = Math.PI / 2;
         scene.add(textMesh);
 
-        textMesh1.position.set(3, -.5, 1.5);
+        textMesh1.position.set(2.5, -.4, 1.5);
         textMesh1.rotation.y = -Math.PI / 2;
         scene.add(textMesh1);
       },
