@@ -246,7 +246,7 @@ function App() {
         textMesh.castShadow = true;
         textMesh1.castShadow = true;
 
-        textMesh.position.set(-4, 0, 7);
+        textMesh.position.set(-3, -0.2, 7);
         textMesh.rotation.y = Math.PI / 2;
         scene.add(textMesh);
 
