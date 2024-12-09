@@ -227,13 +227,13 @@ function App() {
       (font) => {
         const textGeometry = new TextGeometry("It's not what you \nlook at that matters:", {
           font,
-          size: 0.3,
+          size: .4,
           height: 0.3,
           curveSegments: 4,
         });
         const textGeometry1 = new TextGeometry("it's what you see", {
           font,
-          size: 0.5,
+          size: 0.4,
           height: 0.3,
           curveSegments: 12,
         });
@@ -246,12 +246,12 @@ function App() {
         textMesh.castShadow = true;
         textMesh1.castShadow = true;
 
-        textMesh.position.set(-4, 0, 10);
+        textMesh.position.set(-4, 0, 7);
         textMesh.rotation.y = Math.PI / 2;
         scene.add(textMesh);
 
-        textMesh1.position.set(3, 0, -1);
-        textMesh1.rotation.y = -Math.PI / 2.6;
+        textMesh1.position.set(3, -.5, 1.5);
+        textMesh1.rotation.y = -Math.PI / 2;
         scene.add(textMesh1);
       },
       undefined,
@@ -269,15 +269,15 @@ function App() {
       if (cameraRef.current) {
 
 
-        if (textMesh) {
-          textMesh.position.y = 2 + Math.sin(time * 2) * 1;
-          textMesh.position.z = 12 + Math.cos(time * 2) * 1;
-        }
+        // if (textMesh) {
+        //   textMesh.position.y = 2 + Math.sin(time * 2) * 1;
+        //   textMesh.position.z = 12 + Math.cos(time * 2) * 1;
+        // }
 
-        if (textMesh1) {
-          textMesh1.position.y = 2 + Math.sin(time * 2) * 1;
-          textMesh1.position.z = -1 + Math.cos(time * 2) * 1;
-        }
+        // if (textMesh1) {
+        //   textMesh1.position.y = 2 + Math.sin(time * 2) * 1;
+        //   textMesh1.position.z = -1 + Math.cos(time * 2) * 1;
+        // }
 
         //diamonds rotation
         diamonds.forEach((diamond, index) => {
