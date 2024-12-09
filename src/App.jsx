@@ -4,6 +4,8 @@ import { DeviceOrientationControls } from 'three/examples/jsm/controls/DeviceOri
 import videoSource from './assets/s25invitevideo.mp4';
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js';
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js';
+import React from 'react';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
 function App() {
   const mountRef = useRef(null);
@@ -198,7 +200,7 @@ function App() {
           diamonds.push(diamond);
         }
       }
-    }
+     }
 
     // Set up lights
     const dirLight = new THREE.DirectionalLight(0xffffff, 0.4);
@@ -220,45 +222,6 @@ function App() {
     plane.receiveShadow = true;
     scene.add(plane);
 
-    // Load font and create text meshes
-    const fontLoader = new FontLoader();
-    fontLoader.load(
-      '/texas.json',
-      (font) => {
-        const textGeometry = new TextGeometry("It's not what you \nlook at that matters:", {
-          font,
-          size: .4,
-          height: 0.3,
-          curveSegments: 4,
-        });
-        const textGeometry1 = new TextGeometry("it's what you see", {
-          font,
-          size: 0.4,
-          height: 0.3,
-          curveSegments: 12,
-        });
-
-        const textMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff });
-        textMesh = new THREE.Mesh(textGeometry, textMaterial);
-        textMesh1 = new THREE.Mesh(textGeometry1, textMaterial);
-
-        // Enable shadow casting for both text meshes
-        textMesh.castShadow = true;
-        textMesh1.castShadow = true;
-
-        textMesh.position.set(-3, -0.2, 7);
-        textMesh.rotation.y = Math.PI / 2;
-        scene.add(textMesh);
-
-        textMesh1.position.set(2.5, -.4, 1.5);
-        textMesh1.rotation.y = -Math.PI / 2;
-        scene.add(textMesh1);
-      },
-      undefined,
-      (error) => {
-        console.error('Error loading font:', error);
-      }
-    );
 
     let time = 0;
     const slowDownFactor = 0.2;
@@ -267,17 +230,6 @@ function App() {
       requestAnimationFrame(animate);
 
       if (cameraRef.current) {
-
-
-        // if (textMesh) {
-        //   textMesh.position.y = 2 + Math.sin(time * 2) * 1;
-        //   textMesh.position.z = 12 + Math.cos(time * 2) * 1;
-        // }
-
-        // if (textMesh1) {
-        //   textMesh1.position.y = 2 + Math.sin(time * 2) * 1;
-        //   textMesh1.position.z = -1 + Math.cos(time * 2) * 1;
-        // }
 
         //diamonds rotation
         diamonds.forEach((diamond, index) => {
@@ -307,6 +259,23 @@ function App() {
     }
     animate();
 
+    // Load GLB models
+    const gltfLoader = new GLTFLoader();
+    gltfLoader.load('/src/assets/Text1.glb', (gltf) => {
+      const model = gltf.scene;
+      model.position.set(0, 1.5, 5); // Adjust position as needed
+      model.scale.set(.5, .5, .5); // Adjust the scale as needed
+      model.rotation.set(0, 80, 0); // Adjust the rotation as needed
+      scene.add(model);
+    });
+
+    gltfLoader.load('/src/assets/Text2.glb', (gltf) => {
+      const model = gltf.scene;
+      model.position.set(0, -1.5, 4); // Adjust position as needed
+      model.scale.set(.7, .7, .7); // Adjust the scale as needed
+      model.rotation.set(0, 80, 0); // Adjust the rotation as needed
+      scene.add(model);
+    });
 
     return () => {
       if (controlsRef.current) {
