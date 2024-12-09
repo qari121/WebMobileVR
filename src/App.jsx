@@ -259,7 +259,7 @@ function App() {
 
     // Load GLB models
     const gltfLoader = new GLTFLoader();
-    gltfLoader.load('/src/assets/Text1.glb', (gltf) => {
+    gltfLoader.load('./src/assets/Text1.glb', (gltf) => {
       const model = gltf.scene;
       model.position.set(0, 1.5, 5); // Adjust position as needed
       model.scale.set(.5, .5, .5); // Adjust the scale as needed
@@ -267,7 +267,7 @@ function App() {
       scene.add(model);
     });
 
-    gltfLoader.load('/src/assets/Text2.glb', (gltf) => {
+    gltfLoader.load('./src/assets/Text2.glb', (gltf) => {
       const model = gltf.scene;
       model.position.set(0, -1.5, 4); // Adjust position as needed
       model.scale.set(.7, .7, .7); // Adjust the scale as needed
