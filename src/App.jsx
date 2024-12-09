@@ -17,8 +17,6 @@ function App() {
   const cameraRef = useRef(null);
   const [cameraYPosition, setCameraYPosition] = useState(0);
   const [lookAtX, setLookAtX] = useState(0);
-  let textMesh; // Declare textMesh in a higher scope
-  let textMesh1; // Declare textMesh1 in a higher scope
   const [cameraPosition, setCameraPosition] = useState({ x: 0, y: 0, z: 0 });
   const [cameraRotation, setCameraRotation] = useState({ x: 0, y: 0, z: 0 });
 
