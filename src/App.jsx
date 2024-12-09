@@ -27,19 +27,6 @@ function App() {
       setHasGyroPermission(true);
       setShowButtons(true);
 
-      // Debug logs for camera position and rotation after enabling gyro controls
-      // console.log('Gyro Controls Initialized');
-      // console.log('Camera Position:', cameraRef.current.position);
-      // console.log('Camera Rotation:', cameraRef.current.rotation);
-      // console.log('User Agent:', navigator.userAgent); // Log user agent for device info
-
-      // Check if the device is Android
-      // const isAndroid = /Android/i.test(navigator.userAgent);
-      // if (isAndroid) {
-      //   cameraRef.current.rotation.set(0, 0, 0); // Reset all rotations for Android
-      //   cameraRef.current.lookAt(new THREE.Vector3(0, 0, 0)); // Look at the origin
-      // }
-      // console.log('Camera Rotation Y Android:', cameraRef.current.rotation);
     }
   };
 
@@ -240,7 +227,7 @@ function App() {
       (font) => {
         const textGeometry = new TextGeometry("It's not what you \nlook at that matters:", {
           font,
-          size: 0.8,
+          size: 0.5,
           height: 0.3,
           curveSegments: 4,
         });
