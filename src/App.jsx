@@ -227,13 +227,13 @@ function App() {
       (font) => {
         const textGeometry = new TextGeometry("It's not what you \nlook at that matters:", {
           font,
-          size: 0.5,
+          size: 0.3,
           height: 0.3,
           curveSegments: 4,
         });
         const textGeometry1 = new TextGeometry("it's what you see", {
           font,
-          size: 1,
+          size: 0.5,
           height: 0.3,
           curveSegments: 12,
         });
@@ -246,11 +246,11 @@ function App() {
         textMesh.castShadow = true;
         textMesh1.castShadow = true;
 
-        textMesh.position.set(-4, 1, 10);
+        textMesh.position.set(-4, 0, 10);
         textMesh.rotation.y = Math.PI / 2;
         scene.add(textMesh);
 
-        textMesh1.position.set(3, 1, -1);
+        textMesh1.position.set(3, 0, -1);
         textMesh1.rotation.y = -Math.PI / 2.6;
         scene.add(textMesh1);
       },
