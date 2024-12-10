@@ -4,7 +4,7 @@ import { DeviceOrientationControls } from 'three/examples/jsm/controls/DeviceOri
 import videoSource from './assets/s25invitevideo.mp4';
 import React from 'react';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import icon from '/tilt.png';
+import icon from '/tilt.svg';
 import './App.css';
 
 function App() {
@@ -16,6 +16,7 @@ function App() {
   const controlsRef = useRef(null);
   const cameraRef = useRef(null);
   const [showIcon, setShowIcon] = useState(true);
+  const [gyroButtonPressed, setGyroButtonPressed] = useState(false);
 
   const initGyroControls = () => {
     if (cameraRef.current) {
@@ -61,6 +62,7 @@ function App() {
         return false;
       }
     }
+    setGyroButtonPressed(true);
     initGyroControls();
     cameraRef.current.position.set(0, 0, 8);
     cameraRef.current.rotation.set(0, 0, 0);
@@ -251,7 +253,7 @@ function App() {
 
     const timer = setTimeout(() => {
       setShowIcon(false);
-    }, 4000);
+    }, 7000);
 
     return () => {
       if (controlsRef.current) {
@@ -265,9 +267,9 @@ function App() {
 
   return (
     <div ref={mountRef} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', overflow: 'hidden' }}>
-      {showIcon && (
+      {gyroButtonPressed && showIcon && (
         <div className="rotate-icon">
-          <img src={icon} alt="Rotate your phone" />
+          <img src={icon} alt="Rotate your phone" style={{ width: '93px', height: '93px', filter: 'invert(100%)' }} />
         </div>
       )}
       {!hasGyroPermission 
@@ -308,7 +310,7 @@ function App() {
                 lineHeight: 'normal',
                 fontSize: '17px',
                 transition: 'background-color 0.3s, transform 0.3s',
-                fontFamily: 'Texas Clean, sans-serif', // Changed to Texas Clean font
+                fontFamily: 'Source Sans Pro, sans-serif',
                 fontWeight: 500,
                 display: 'flex',
                 flexDirection: 'column',
@@ -352,7 +354,7 @@ function App() {
           textAlign: 'center',
           boxShadow: 'none', // Same shadow effect
           transition: 'background-color 0.3s, transform 0.3s',
-          fontFamily: 'Texas Clean, sans-serif', // Changed to Texas Clean font
+          fontFamily: 'Source Sans Pro, sans-serif',
           fontWeight: 400 // Regular weight
         }}>
           Confirm Details
@@ -376,7 +378,7 @@ function App() {
           textAlign: 'center',
           boxShadow: 'none', // Same shadow effect
           transition: 'background-color 0.3s, transform 0.3s',
-          fontFamily: 'Texas Clean, sans-serif', // Changed to Texas Clean font
+          fontFamily: 'Source Sans Pro, sans-serif',
           fontWeight: 400 // Regular weight
         }}>
           2024 Recap
