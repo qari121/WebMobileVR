@@ -26,3 +26,15 @@
     transform: translate(-50%, -50%) rotate(10deg); /* Tilt to the right */
   }
 }
+
+@font-face {
+  font-family: 'Texas Clean';
+  src: url('/TexasClean.otf') format('opentype'); /* Adjust the path as needed */
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Example usage */
+body {
+  font-family: 'Texas Clean', sans-serif; /* Use the font in your body or specific elements */
+}

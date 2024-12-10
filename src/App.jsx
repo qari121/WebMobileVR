@@ -308,7 +308,7 @@ function App() {
                 lineHeight: 'normal',
                 fontSize: '17px',
                 transition: 'background-color 0.3s, transform 0.3s',
-                fontFamily: 'Source Sans Pro, sans-serif',
+                fontFamily: 'Texas Clean, sans-serif', // Changed to Texas Clean font
                 fontWeight: 500,
                 display: 'flex',
                 flexDirection: 'column',
@@ -352,7 +352,7 @@ function App() {
           textAlign: 'center',
           boxShadow: 'none', // Same shadow effect
           transition: 'background-color 0.3s, transform 0.3s',
-          fontFamily: 'Source Sans Pro, sans-serif', // Use Source Sans Pro font
+          fontFamily: 'Texas Clean, sans-serif', // Changed to Texas Clean font
           fontWeight: 400 // Regular weight
         }}>
           Confirm Details
@@ -376,7 +376,7 @@ function App() {
           textAlign: 'center',
           boxShadow: 'none', // Same shadow effect
           transition: 'background-color 0.3s, transform 0.3s',
-          fontFamily: 'Source Sans Pro, sans-serif', // Use Source Sans Pro font
+          fontFamily: 'Texas Clean, sans-serif', // Changed to Texas Clean font
           fontWeight: 400 // Regular weight
         }}>
           2024 Recap
