@@ -376,7 +376,7 @@ function App() {
           left: '50%',
           transform: 'translate(-50%, -50%)',
           width: '350px',
-          height: '350px',
+          height: '400px',
           backgroundColor: '#082a37',
           borderRadius: '10px',
           boxShadow: '0 0 10px rgba(0, 0, 0, 0.5)',
@@ -395,7 +395,7 @@ function App() {
             width: '30px',
             height: '30px',
             borderRadius: '50%',
-            backgroundColor: '#00A9E4',
+            backgroundColor: '#f28f2d',
             color: 'white',
             border: 'none',
             fontSize: '16px',
@@ -407,19 +407,25 @@ function App() {
           <p style={{ textAlign: 'center', fontFamily: 'Source Sans Pro, sans-serif', marginBottom: '8px', color: 'white' }}>
             PLEASE JOIN US FOR
           </p>
-          <img src={symbolImage} alt="Logo" style={{ width: '100px', height: '100px' }} />
-          <p style={{ textAlign: 'center', fontFamily: 'Source Sans Pro, sans-serif', marginBottom: '1px', color: 'white',fontWeight: 'bold',fontSize: '20px' }}>
+          <img src={symbolImage} alt="Logo" style={{ width: '100px', height: '100px', marginBottom: '0px' }} />
+          <p style={{ textAlign: 'center', fontFamily: 'Source Sans Pro, sans-serif', margin: '0px', color: 'white', fontWeight: 'bold', fontSize: '20px' }}>
             SLOPES 25
           </p>
 
-          <p style={{ textAlign: 'center', fontFamily: 'Source Sans Pro, sans-serif',color: 'white' }}>
-            Liontree's Annual Gathering In The Mountains
+          <p style={{ textAlign: 'center', fontFamily: 'Source Sans Pro, sans-serif', color: 'white', textTransform: 'uppercase' }}>
+            Liontree's Annual Gathering 
             <br />
-            Monday, 3 March to 
-            <br />
-            Wednesday, 5 March
+            In The Mountains
           </p>
-          <p style={{ textAlign: 'center', fontFamily: 'Source Sans Pro, sans-serif',color: 'white' }}>
+          <p style={{ textAlign: 'center', fontFamily: 'Source Sans Pro, sans-serif', margin: '0px', color: 'white', textTransform: 'uppercase' }}>
+            <strong>Monday, 3 March</strong> 
+            <br />
+           <strong>to</strong>
+            <br />
+            <strong>Wednesday, 5 March</strong>
+          </p>
+          <br />
+          <p style={{ textAlign: 'center', fontFamily: 'Source Sans Pro, sans-serif', margin: '0px', color: 'white', textTransform: 'uppercase' }}>
             Deer Valley - Utah
           </p>
         </div>
