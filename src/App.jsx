@@ -6,6 +6,7 @@ import React from 'react';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import icon from '/tilt.svg';
 import './App.css';
+import symbolImage from './assets/Symbol.png';
 
 function App() {
   const mountRef = useRef(null);
@@ -406,7 +407,7 @@ function App() {
           <p style={{ textAlign: 'center', fontFamily: 'Source Sans Pro, sans-serif', marginBottom: '8px', color: 'white' }}>
             PLEASE JOIN US FOR
           </p>
-          <img src="/assets/Symbol.png" alt="Logo" style={{ width: '100px', height: '100px' }} />
+          <img src={symbolImage} alt="Logo" style={{ width: '100px', height: '100px' }} />
           <p style={{ textAlign: 'center', fontFamily: 'Source Sans Pro, sans-serif', marginBottom: '1px', color: 'white',fontWeight: 'bold',fontSize: '20px' }}>
             SLOPES 25
           </p>
