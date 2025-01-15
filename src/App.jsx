@@ -17,6 +17,7 @@ function App() {
   const cameraRef = useRef(null);
   const [showIcon, setShowIcon] = useState(true);
   const [gyroButtonPressed, setGyroButtonPressed] = useState(false);
+  const [isPopupVisible, setIsPopupVisible] = useState(false);
 
   const initGyroControls = () => {
     if (cameraRef.current) {
@@ -69,6 +70,10 @@ function App() {
     window.addEventListener('deviceorientation', onDeviceOrientation);
 
     return true;
+  };
+
+  const togglePopup = () => {
+    setIsPopupVisible(!isPopupVisible);
   };
 
   useEffect(() => {
@@ -339,47 +344,109 @@ function App() {
 
       {/* RSVP Button */}
       {showButtons && (
-        <a href="https://slopes.events-liontree.com/i/preview/rsvp" target="_blank" rel="noopener noreferrer" style={{
+        <button onClick={togglePopup} style={{
           position: 'absolute',
           bottom: '50px',
           left: '50%',
           transform: 'translateX(-50%)',
           display: 'inline-block',
-          width: '200px', // Same width as other buttons
-          padding: '10px 0', // Same padding
-          borderRadius: '20px', // Same border radius
+          width: '200px',
+          padding: '10px 0',
+          borderRadius: '20px',
           backgroundColor: '#00A9E4',
           color: 'white',
           textDecoration: 'none',
           textAlign: 'center',
-          boxShadow: 'none', // Same shadow effect
-          transition: 'background-color 0.3s, transform 0.3s',
+          border: 'none',
+          outline: 'none',
+          cursor: 'pointer',
           fontFamily: 'Source Sans Pro, sans-serif',
-          fontWeight: 400 // Regular weight
+          fontWeight: 400,
+          fontSize: '16px'
         }}>
-          Confirm Details
-        </a>
+          Slopes 2025 Details
+        </button>
+      )}
+
+      {isPopupVisible && (
+        <div style={{
+          position: 'fixed',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: '350px',
+          height: '350px',
+          backgroundColor: '#082a37',
+          borderRadius: '10px',
+          boxShadow: '0 0 10px rgba(0, 0, 0, 0.5)',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          zIndex: 1000,
+          padding: '20px',
+          boxSizing: 'border-box'
+        }}>
+          <button onClick={togglePopup} style={{
+            position: 'absolute',
+            top: '10px',
+            right: '10px',
+            width: '30px',
+            height: '30px',
+            borderRadius: '50%',
+            backgroundColor: '#00A9E4',
+            color: 'white',
+            border: 'none',
+            fontSize: '16px',
+            cursor: 'pointer',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center'
+          }}>×</button>
+          <p style={{ textAlign: 'center', fontFamily: 'Source Sans Pro, sans-serif', marginBottom: '8px', color: 'white' }}>
+            PLEASE JOIN US FOR
+          </p>
+          <img src="src/assets/Symbol.png" alt="Logo" style={{ width: '100px', height: '100px' }} />
+          <p style={{ textAlign: 'center', fontFamily: 'Source Sans Pro, sans-serif', marginBottom: '1px', color: 'white',fontWeight: 'bold',fontSize: '20px' }}>
+            SLOPES 25
+          </p>
+
+          <p style={{ textAlign: 'center', fontFamily: 'Source Sans Pro, sans-serif',color: 'white' }}>
+            Liontree's Annual Gathering In The Mountains
+            <br />
+            Monday, 3 March to 
+            <br />
+            Wednesday, 5 March
+          </p>
+          <p style={{ textAlign: 'center', fontFamily: 'Source Sans Pro, sans-serif',color: 'white' }}>
+            Deer Valley - Utah
+          </p>
+        </div>
       )}
 
       {/* 2024 Recap Button */}
       {showButtons && (
-        <a href="https://vimeo.com/alexhoxie/review/920675397/6133175eb0" target="_blank" rel="noopener noreferrer" style={{
+        <a href="https://vimeo.com/alexhoxie/review/920675397/6133175eb0" 
+           target="_blank" 
+           rel="noopener noreferrer" 
+           style={{
           position: 'absolute',
           bottom: '100px',
           left: '50%',
           transform: 'translateX(-50%)',
           display: 'inline-block',
-          width: '200px', // Same width as other buttons
-          padding: '10px 0', // Same padding
-          borderRadius: '20px', // Same border radius
+          width: '200px',
+          padding: '10px 0',
+          borderRadius: '20px',
           backgroundColor: '#f38f2e',
           color: 'white',
           textDecoration: 'none',
           textAlign: 'center',
-          boxShadow: 'none', // Same shadow effect
-          transition: 'background-color 0.3s, transform 0.3s',
+          border: 'none',
+          cursor: 'pointer',
           fontFamily: 'Source Sans Pro, sans-serif',
-          fontWeight: 400 // Regular weight
+          fontWeight: 400,
+          fontSize: '16px'
         }}>
           2024 Recap
         </a>
