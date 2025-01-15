@@ -406,7 +406,7 @@ function App() {
           <p style={{ textAlign: 'center', fontFamily: 'Source Sans Pro, sans-serif', marginBottom: '8px', color: 'white' }}>
             PLEASE JOIN US FOR
           </p>
-          <img src="/src/assets/Symbol.png" alt="Logo" style={{ width: '100px', height: '100px' }} />
+          <img src="/assets/Symbol.png" alt="Logo" style={{ width: '100px', height: '100px' }} />
           <p style={{ textAlign: 'center', fontFamily: 'Source Sans Pro, sans-serif', marginBottom: '1px', color: 'white',fontWeight: 'bold',fontSize: '20px' }}>
             SLOPES 25
           </p>
