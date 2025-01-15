@@ -404,7 +404,7 @@ function App() {
             justifyContent: 'center',
             alignItems: 'center'
           }}>×</button>
-          <p style={{ textAlign: 'center', fontFamily: 'Source Sans Pro, sans-serif', marginBottom: '8px', color: 'white' }}>
+          <p style={{ textAlign: 'center', fontFamily: 'Source Sans Pro, sans-serif', marginBottom: '8px', color: 'white', fontWeight: 200 }}>
             PLEASE JOIN US FOR
           </p>
           <img src={symbolImage} alt="Logo" style={{ width: '100px', height: '100px', marginBottom: '0px' }} />
@@ -412,20 +412,20 @@ function App() {
             SLOPES 25
           </p>
 
-          <p style={{ textAlign: 'center', fontFamily: 'Source Sans Pro, sans-serif', color: 'white', textTransform: 'uppercase' }}>
+          <p style={{ textAlign: 'center', fontFamily: 'Source Sans Pro, sans-serif', color: 'white', textTransform: 'uppercase', fontWeight: 200 }}>
             Liontree's Annual Gathering 
             <br />
             In The Mountains
           </p>
-          <p style={{ textAlign: 'center', fontFamily: 'Source Sans Pro, sans-serif', margin: '0px', color: 'white', textTransform: 'uppercase' }}>
+          <p style={{ textAlign: 'center', fontFamily: 'Source Sans Pro, sans-serif', margin: '0px', color: 'white', textTransform: 'uppercase', fontWeight: 200 }}>
             <strong>Monday, 3 March</strong> 
             <br />
-           <strong>to</strong>
+            to
             <br />
             <strong>Wednesday, 5 March</strong>
           </p>
           <br />
-          <p style={{ textAlign: 'center', fontFamily: 'Source Sans Pro, sans-serif', margin: '0px', color: 'white', textTransform: 'uppercase' }}>
+          <p style={{ textAlign: 'center', fontFamily: 'Source Sans Pro, sans-serif', margin: '0px', color: 'white', textTransform: 'uppercase',fontWeight: 200 }}>
             Deer Valley - Utah
           </p>
         </div>
