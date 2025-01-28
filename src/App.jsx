@@ -405,7 +405,9 @@ function App() {
             alignItems: 'center'
           }}>×</button>
           <p style={{ textAlign: 'center', fontFamily: 'Source Sans Pro, sans-serif', marginBottom: '8px', color: 'white', fontWeight: 200,textTransform: 'uppercase' }}>
-          We look forward to seeing you at
+          We look forward
+          <br />
+          to seeing you at
           </p>
           <img src={symbolImage} alt="Logo" style={{ width: '100px', height: '100px', marginBottom: '0px' }} />
           <p style={{ textAlign: 'center', fontFamily: 'Source Sans Pro, sans-serif', margin: '0px', color: 'white', fontWeight: 'bold', fontSize: '20px' }}>
